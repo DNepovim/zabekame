@@ -17,6 +17,8 @@ class UserManager implements Nette\Security\IAuthenticator
 		TABLE_NAME = 'zabe_users',
 		COLUMN_ID = 'id',
 		COLUMN_NAME = 'username',
+		COLUMN_FIRSTNAME = 'firstname',
+		COLUMN_SURNAME = 'surname',
 		COLUMN_PASSWORD_HASH = 'password',
 		COLUMN_EMAIL = 'mail';
 
@@ -68,11 +70,13 @@ class UserManager implements Nette\Security\IAuthenticator
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
-	public function add($username, $email, $password)
+	public function add($username, $firstname, $surname, $email, $password)
 	{
 		try {
 			$this->database->table(self::TABLE_NAME)->insert([
 				self::COLUMN_NAME => $username,
+				self::COLUMN_FIRSTNAME => $firstname,
+				self::COLUMN_SURNAME => $surname,
 				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
 				self::COLUMN_EMAIL => $email,
 			]);

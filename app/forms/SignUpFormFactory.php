@@ -36,6 +36,10 @@ class SignUpFormFactory
 		$form->addText('username', 'Uživatelské jméno:')
 			->setRequired('Prosím, zadej uživatelské jméno.');
 
+		$form->addText('firstname', 'Křestní jméno:');
+
+		$form->addText('surname', 'Příjmení:');
+
 		$form->addEmail('email', 'E-mail:')
 			->setRequired('Prosím zadejte svůj e-mail.');
 
@@ -48,7 +52,7 @@ class SignUpFormFactory
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
 			try {
-				$this->userManager->add($values->username, $values->email, $values->password);
+				$this->userManager->add($values->username, $values->firstname, $values->surname, $values->email, $values->password);
 			} catch (Model\DuplicateNameException $e) {
 				$form['username']->addError('Uživatelské jméno již existuje. Použijte jiné.');
 				return;
