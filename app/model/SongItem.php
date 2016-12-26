@@ -37,7 +37,7 @@ class SongItem extends Nette\Object
 	}
 
 	/**
-	 * Get sont data.
+	 * Get song data.
 	 * @param  string  Song id or guid
 	 * @return string HTML text
 	 */

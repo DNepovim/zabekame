@@ -19,6 +19,7 @@ services:
 	- App\Model\UserManager
 	- App\Model\SongManager
 	- App\Model\SongbookManager
+	- App\Model\SongbookItem
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory

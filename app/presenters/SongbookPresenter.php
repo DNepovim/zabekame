@@ -2,8 +2,9 @@
 
 namespace App\Presenters;
 
-use App\Model\SongItem;
 use App\Model\SongbookManager;
+use App\Model\SongbookItem;
+use App\Model\SongManager;
 use Nette;
 use App\Forms;
 
@@ -32,6 +33,21 @@ class SongbookPresenter extends BasePresenter
 		$this->template->songbooks = $songs = $songbookManager->getUsersSongbooks($this->getUser()->id);
 	}
 
+	/**
+	 * Render songbook detail
+	 */
+	public function renderDetail($id)
+	{
+		$songbookItem = new SongbookItem($this->database);
+		$songbookItem->getSongbook($id);
+
+		$ids = $songbookItem->getSongsIDFromSongbook($id);
+
+		$songsManager = new SongManager($this->database);
+
+		$this->template->songbook = $songbookItem;
+		$this->template->songs = $songsManager->getSongsByIds($ids);
+	}
 	/**
 	 * Songbook form factory.
 	 * @return Nette\Application\UI\Form

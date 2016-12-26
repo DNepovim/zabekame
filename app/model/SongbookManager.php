@@ -67,4 +67,5 @@ class SongbookManager extends Nette\Object
 		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user);
 	}
 
+
 }
