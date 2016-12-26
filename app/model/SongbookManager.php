@@ -6,20 +6,20 @@ use Nette;
 
 
 /**
- * Songs management.
+ * Songsbook management.
  */
-class SongManager extends Nette\Object
+class SongbookManager extends Nette\Object
 {
 	use Nette\SmartObject;
 
 	const
-		TABLE_NAME = 'zabe_songs',
+		TABLE_NAME = 'zabe_songbooks',
 		COLUMN_ID = 'id',
 		COLUMN_USER = 'zabe_users_id',
+		COLUMN_ORDER = 'order',
+		COLUMN_DEFAULT = 'default',
 		COLUMN_TITLE = 'title',
-		COLUMN_GUID = 'guid',
-		COLUMN_INTERPRETER = 'interpreter',
-		COLUMN_LYRIC = 'lyric';
+		COLUMN_GUID = 'guid';
 
 	/** @var Nette\Database\Context */
 	private $database;
@@ -31,29 +31,25 @@ class SongManager extends Nette\Object
 	}
 
 	/**
-	 * Adds new song.
-	 * @param  string
-	 * @param  string
-	 * @param  string
-	 * @param  string
-	 * @param  string
-	 * @return void
+	 * Adds new songbook.
+	 * @param  string Users ID
+	 * @param  string Songbook title
+	 * @param  string Songbook guid
+	 * @return Songbook
 	 * @throws DuplicateNameException
 	 */
-	public function add($user_id, $title, $guid, $interpreter, $lyric)
+	public function add($user_id, $title, $guid )
 	{
 		try {
-			$song = $this->database->table(self::TABLE_NAME)->insert([
+			$songbook = $this->database->table(self::TABLE_NAME)->insert([
 				self::COLUMN_USER => $user_id,
 				self::COLUMN_TITLE => $title,
 				self::COLUMN_GUID => $guid,
-				self::COLUMN_INTERPRETER => $interpreter,
-				self::COLUMN_LYRIC => $lyric,
 			]);
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}
-		return $song;
+		return $songbook;
 	}
 
 	private function guidExist($guid)
@@ -62,13 +58,11 @@ class SongManager extends Nette\Object
 	}
 
 	/**
-	 * Get list of all songs of current user.
-	 * @param  string
-	 * @param  string
-	 * @param  string
-	 * @return array list of songs
+	 * Get list of all songbooks of current user.
+	 * @param  string Users ID
+	 * @return array list of songbooks
 	 */
-	public function getUsersSongs($user)
+	public function getUsersSongsbooks($user)
 	{
 		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user);
 	}
