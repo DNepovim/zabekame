@@ -18,11 +18,13 @@ session:
 services:
 	- App\Model\UserManager
 	- App\Model\SongManager
+	- App\Model\SongItem
 	- App\Model\SongbookManager
 	- App\Model\SongbookItem
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory
 	- App\Forms\SongFormFactory
+	- App\Forms\SongEditFormFactory
 	- App\Forms\SongbookFormFactory
 	router: App\RouterFactory::createRouter

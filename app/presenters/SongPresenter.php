@@ -15,6 +15,11 @@ class SongPresenter extends BasePresenter
 	/** @var Forms\SongFormFactory @inject */
 	public $songFactory;
 
+	/** @var Forms\SongEditFormFactory @inject */
+	public $songEditFactory;
+
+	public $id;
+
 	public function beforeRender() {
 		parent::beforeRender();
 
@@ -43,6 +48,13 @@ class SongPresenter extends BasePresenter
 	}
 
 	/**
+	 * Render edit
+	 */
+	public function renderEdit( $id )
+	{
+		$this->id = $id;
+	}
+	/**
 	 * Song form factory.
 	 * @return Nette\Application\UI\Form
 	 */
@@ -55,4 +67,17 @@ class SongPresenter extends BasePresenter
 		}, $user);
 	}
 
+	/**
+	 * Song edit form factory.
+	 * @id string id of edited song
+	 * @return Nette\Application\UI\Form
+	 */
+	protected function createComponentSongEditForm()
+	{
+		$song = new SongItem($this->database);
+		$song->getSong($this->id);
+
+		return $this->songEditFactory->create(function () {
+		}, $song);
+	}
 }

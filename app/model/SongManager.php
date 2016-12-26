@@ -56,6 +56,29 @@ class SongManager extends Nette\Object
 		return $song;
 	}
 
+	/**
+	 * Edit existing song
+	 * @title  string
+	 * @guid  string
+	 * @interpreter  string
+	 * @lyric  string
+	 * @return void
+	 * @throws DuplicateNameException
+	 */
+	public function edit($title, $guid, $interpreter, $lyric)
+	{
+		try {
+			$song = $this->database->table(self::TABLE_NAME)->update([
+				self::COLUMN_TITLE => $title,
+				self::COLUMN_GUID => $guid,
+				self::COLUMN_INTERPRETER => $interpreter,
+				self::COLUMN_LYRIC => $lyric,
+			]);
+		} catch (Nette\Database\UniqueConstraintViolationException $e) {
+			throw new DuplicateNameException;
+		}
+	}
+
 	private function guidExist($guid)
 	{
 
