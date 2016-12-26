@@ -50,8 +50,8 @@ class SongPresenter extends BasePresenter
 	{
 		$user = $this->getUser()->id;
 
-		return $this->songFactory->create(function () {
-			$this->redirect('Homepage:');
+		return $this->songFactory->create(function ($guid) {
+			$this->redirect('Song:detail', $guid);
 		}, $user);
 	}
 

@@ -49,8 +49,8 @@ class SongFormFactory
 		$form->addSubmit('send', 'Uložit píseň');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$this->songManager->add($values->user, $values->title, $values->guid, $values->interpreter, $values->lyric );
-			$onSuccess();
+			$song = $this->songManager->add($values->user, $values->title, $values->guid, $values->interpreter, $values->lyric );
+			$onSuccess($song->guid);
 		};
 
 		return $form;

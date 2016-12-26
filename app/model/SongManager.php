@@ -43,7 +43,7 @@ class SongManager extends Nette\Object
 	public function add($user_id, $title, $guid, $interpreter, $lyric)
 	{
 		try {
-			$this->database->table(self::TABLE_NAME)->insert([
+			$song = $this->database->table(self::TABLE_NAME)->insert([
 				self::COLUMN_USER => $user_id,
 				self::COLUMN_TITLE => $title,
 				self::COLUMN_GUID => $guid,
@@ -53,6 +53,7 @@ class SongManager extends Nette\Object
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}
+		return $song;
 	}
 
 	/**
