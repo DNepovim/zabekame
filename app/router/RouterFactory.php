@@ -19,6 +19,7 @@ class RouterFactory
 		$router = new RouteList;
 
 		$router[] = new Route('song/', 'Song:list');
+		$router[] = new Route('song/add', 'Song:add');
 		$router[] = new Route('song[/<id>]', 'Song:detail');
 		$router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
 
