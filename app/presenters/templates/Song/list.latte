@@ -1,0 +1,11 @@
+{block content}
+<header id="banner">
+    <h1 n:block=title class="title title-song">Obsah</h1>
+</header>
+
+<section class="list">
+    <ul>
+        <li n:foreach="$songs as $song">{$song->title}, {$song->interpreter}</li>
+    </ul>
+</section>
+

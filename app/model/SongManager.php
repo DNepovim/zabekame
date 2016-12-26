@@ -35,6 +35,8 @@ class SongManager extends Nette\Object
 	 * @param  string
 	 * @param  string
 	 * @param  string
+	 * @param  string
+	 * @param  string
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
@@ -51,6 +53,18 @@ class SongManager extends Nette\Object
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}
+	}
+
+	/**
+	 * Get list of all songs of current user.
+	 * @param  string
+	 * @param  string
+	 * @param  string
+	 * @return array list of songs
+	 */
+	public function getUsersSongs($user)
+	{
+		return $this->database->table(self::TABLE_NAME )->select('*')->where('zabe_users_id', $user);
 	}
 
 }
