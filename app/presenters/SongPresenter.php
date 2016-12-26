@@ -13,6 +13,13 @@ class SongPresenter extends BasePresenter
 	/** @var Forms\SongFormFactory @inject */
 	public $songFactory;
 
+	public function beforeRender() {
+		parent::beforeRender();
+
+		if (!$this->getUser()->loggedIn) {
+			$this->redirect('Sign:in');
+		}
+	}
 
 	/**
 	 * Render default list
