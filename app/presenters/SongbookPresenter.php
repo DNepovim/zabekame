@@ -3,7 +3,7 @@
 namespace App\Presenters;
 
 use App\Model\SongItem;
-use App\Model\SongManager;
+use App\Model\SongbookManager;
 use Nette;
 use App\Forms;
 
@@ -24,12 +24,12 @@ class SongbookPresenter extends BasePresenter
 	}
 
 	/**
-	 * Render default list
+	 * Render songbooks list
 	 */
-	public function renderList( $id = null )
+	public function renderList()
 	{
 		$songbookManager = new SongbookManager($this->database);
-		$this->template->songbookss = $songs = $songbookManager->getUsersSongbooks($this->getUser()->id);
+		$this->template->songbooks = $songs = $songbookManager->getUsersSongbooks($this->getUser()->id);
 	}
 
 	/**

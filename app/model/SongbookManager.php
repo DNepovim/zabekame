@@ -62,7 +62,7 @@ class SongbookManager extends Nette\Object
 	 * @param  string Users ID
 	 * @return array list of songbooks
 	 */
-	public function getUsersSongsbooks($user)
+	public function getUsersSongbooks($user)
 	{
 		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user);
 	}
