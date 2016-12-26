@@ -64,7 +64,7 @@ class SongManager extends Nette\Object
 	 */
 	public function getUsersSongs($user)
 	{
-		return $this->database->table(self::TABLE_NAME )->select('*')->where('zabe_users_id', $user);
+		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user);
 	}
 
 }

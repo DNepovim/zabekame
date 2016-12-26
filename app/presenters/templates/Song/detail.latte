@@ -1,0 +1,9 @@
+{block content}
+<header id="banner">
+    <h1 n:block=title class="title title-song">{$song->title}</h1>
+    <p class="subtitle">{$song->interpreter}</p>
+</header>
+
+<article class="lyric">
+    {$song->lyric|noescape}
+</article>

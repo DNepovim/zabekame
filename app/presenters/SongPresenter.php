@@ -8,6 +8,8 @@ use Nette;
 use App\Forms;
 
 
+
+
 class SongPresenter extends BasePresenter
 {
 	/** @var Forms\SongFormFactory @inject */
@@ -28,6 +30,16 @@ class SongPresenter extends BasePresenter
 	{
 		$songManager = new SongManager($this->database);
 		$this->template->songs = $songs = $songManager->getUsersSongs($this->getUser()->id);
+	}
+
+	/**
+	 * Render detail
+	 */
+	public function renderDetail( $id )
+	{
+		$songItem = new SongItem($this->database);
+		$songItem->getSong($id);
+		$this->template->song = $songItem;
 	}
 
 	/**
