@@ -28,11 +28,11 @@ class SongFormFactory
 	/**
 	 * @return Form
 	 */
-	public function create(callable $onSuccess)
+	public function create(callable $onSuccess, $user)
 	{
 		$form = $this->factory->create();
 
-		$form->addText('user', 'Uzivatel');
+		$form->addHidden('user', $user);
 
 		$form->addText('title', 'Název')
 			->setRequired('Prosím, zadej název písně.');

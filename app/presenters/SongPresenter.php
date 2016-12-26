@@ -17,8 +17,11 @@ class SongPresenter extends BasePresenter
 	 */
 	protected function createComponentSongForm()
 	{
+		$user = $this->getUser()->id;
+
 		return $this->songFactory->create(function () {
 			$this->redirect('Homepage:');
-		});
+		}, $user);
 	}
+
 }
