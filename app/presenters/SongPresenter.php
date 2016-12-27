@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Model\SongbookManager;
 use App\Model\SongItem;
 use App\Model\SongManager;
 use Nette;
@@ -29,8 +30,7 @@ class SongPresenter extends BasePresenter
 	}
 
 	/**
-	 * Render default list
-	 */
+	 * Render default list */
 	public function renderList( $id = null )
 	{
 		$songManager = new SongManager($this->database);
@@ -61,10 +61,12 @@ class SongPresenter extends BasePresenter
 	protected function createComponentSongForm()
 	{
 		$user = $this->getUser()->id;
+		$songbooks = new SongbookManager($this->database);
+		$songbooksList = $songbooks->getUsersSongbooks($user);
 
 		return $this->songFactory->create(function ($guid) {
 			$this->redirect('Song:detail', $guid);
-		}, $user);
+		}, $user, $songbooksList);
 	}
 
 	/**

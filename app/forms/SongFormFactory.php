@@ -28,7 +28,7 @@ class SongFormFactory
 	/**
 	 * @return Form
 	 */
-	public function create(callable $onSuccess, $user)
+	public function create(callable $onSuccess, $user, $songbooks)
 	{
 		$form = $this->factory->create();
 
@@ -43,13 +43,19 @@ class SongFormFactory
 		$form->addText('guid', 'Název v URL')
 		     ->setRequired('Prosím, zadej zázev pro URL.');
 
+		foreach ($songbooks as $item) {
+			$options[$item->id] = $item->title;
+		}
+
+		$form->addCheckboxList('songbooks', 'Zpěvník', $options );
+
 		$form->addTextarea('lyric', 'Text:')
 			->setRequired('Prosím, vlož text.');
 
 		$form->addSubmit('send', 'Uložit píseň');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$song = $this->songManager->add($values->user, $values->title, $values->guid, $values->interpreter, $values->lyric );
+			$song = $this->songManager->add($values->user, $values->title, $values->guid, $values->interpreter, $values->lyric, $values->songbooks );
 			$onSuccess($song->guid);
 		};
 

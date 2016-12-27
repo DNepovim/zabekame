@@ -21,6 +21,12 @@ class SongManager extends Nette\Object
 		COLUMN_INTERPRETER = 'interpreter',
 		COLUMN_LYRIC = 'lyric';
 
+	const
+		RELATION_TABLE_NAME = 'zabe_song_songbook_relations',
+		RELATION_SONGBOOK = 'zabe_songbooks_id',
+		RELATION_SONG = 'zabe_songs_id',
+		REALTION_ORDER = 'order';
+
 	/** @var Nette\Database\Context */
 	private $database;
 
@@ -40,7 +46,7 @@ class SongManager extends Nette\Object
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
-	public function add($user_id, $title, $guid, $interpreter, $lyric)
+	public function add($user_id, $title, $guid, $interpreter, $lyric, $songbooks)
 	{
 		try {
 			$song = $this->database->table(self::TABLE_NAME)->insert([
@@ -50,6 +56,13 @@ class SongManager extends Nette\Object
 				self::COLUMN_INTERPRETER => $interpreter,
 				self::COLUMN_LYRIC => $lyric,
 			]);
+
+			foreach ($songbooks as $songbook) {
+				$songRelation = $this->database->table(self::RELATION_TABLE_NAME)->insert([
+					self::RELATION_SONGBOOK => $songbook,
+					self::RELATION_SONG=> $song,
+				]);
+			}
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}
