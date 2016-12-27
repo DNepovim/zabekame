@@ -78,10 +78,10 @@ class SongManager extends Nette\Object
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
-	public function edit($title, $guid, $interpreter, $lyric)
+	public function edit($id, $title, $guid, $interpreter, $lyric)
 	{
 		try {
-			$song = $this->database->table(self::TABLE_NAME)->update([
+			$song = $this->database->table(self::TABLE_NAME)->get($id)->update([
 				self::COLUMN_TITLE => $title,
 				self::COLUMN_GUID => $guid,
 				self::COLUMN_INTERPRETER => $interpreter,

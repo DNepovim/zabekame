@@ -33,6 +33,8 @@ class SongEditFormFactory
 
 		$form = $this->factory->create();
 
+		$form->addHidden('id', $song->id);
+
 		$form->addText('title', 'Název')
 			->setDefaultValue($song->title)
 			->setRequired('Prosím, zadej název písně.');
@@ -52,7 +54,7 @@ class SongEditFormFactory
 		$form->addSubmit('send', 'Uložit píseň');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$this->songManager->edit($values->title, $values->guid, $values->interpreter, $values->lyric );
+			$this->songManager->edit( $values->id, $values->title, $values->guid, $values->interpreter, $values->lyric );
 			$onSuccess();
 		};
 
