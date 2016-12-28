@@ -28,7 +28,7 @@ class SongEditFormFactory
 	/**
 	 * @return Form
 	 */
-	public function create(callable $onSuccess, $song)
+	public function create(callable $onSuccess, $song, $songbooks)
 	{
 
 		$form = $this->factory->create();
@@ -46,6 +46,13 @@ class SongEditFormFactory
 		$form->addText('guid', 'Název v URL')
 			->setDefaultValue($song->guid)
 		     ->setRequired('Prosím, zadej zázev pro URL.');
+
+		foreach ($songbooks as $item) {
+			$options[$item->id] = $item->title;
+		}
+
+		$form->addCheckboxList('songbooks', 'Zpěvník', $options );
+
 
 		$form->addTextarea('lyric', 'Text:')
 			->setDefaultValue($song->lyricSource)

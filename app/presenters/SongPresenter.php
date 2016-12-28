@@ -52,8 +52,9 @@ class SongPresenter extends BasePresenter
 	 */
 	public function renderEdit( $id )
 	{
-		$this->id = $id;
+		$this->template->id = $this->id = $id;
 	}
+
 	/**
 	 * Song form factory.
 	 * @return Nette\Application\UI\Form
@@ -79,7 +80,12 @@ class SongPresenter extends BasePresenter
 		$song = new SongItem($this->database);
 		$song->getSong($this->id);
 
+		$user = $this->getUser()->id;
+
+		$songbooks = new SongbookManager($this->database);
+		$songbooksList = $songbooks->getUsersSongbooks($user);
+
 		return $this->songEditFactory->create(function () {
-		}, $song);
+		}, $song, $songbooksList);
 	}
 }
