@@ -51,7 +51,13 @@ class SongEditFormFactory
 			$options[$item->id] = $item->title;
 		}
 
-		$form->addCheckboxList('songbooks', 'Zpěvník', $options );
+		if (!empty($song->songbooks)) {
+			$form->addCheckboxList('songbooks', 'Zpěvník', $options )
+			     ->setDefaultValue($song->songbooks);
+		} else {
+			$form->addCheckboxList('songbooks', 'Zpěvník', $options );
+		}
+
 
 
 		$form->addTextarea('lyric', 'Text:')
@@ -61,7 +67,7 @@ class SongEditFormFactory
 		$form->addSubmit('send', 'Uložit píseň');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$this->songManager->edit( $values->id, $values->title, $values->guid, $values->interpreter, $values->lyric );
+			$this->songManager->edit( $values->id, $values->title, $values->guid, $values->interpreter, $values->lyric, $values->songbooks );
 			$onSuccess();
 		};
 

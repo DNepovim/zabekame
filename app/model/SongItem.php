@@ -21,6 +21,12 @@ class SongItem extends Nette\Object
 		COLUMN_INTERPRETER = 'interpreter',
 		COLUMN_LYRIC = 'lyric';
 
+	const
+		RELATION_TABLE_NAME = 'zabe_song_songbook_relations',
+		RELATION_SONGBOOK = 'zabe_songbooks_id',
+		RELATION_SONG = 'zabe_songs_id',
+		REALTION_ORDER = 'order';
+
 	/** @var Nette\Database\Context */
 	private $database;
 
@@ -31,6 +37,7 @@ class SongItem extends Nette\Object
 	public $interpreter;
 	public $lyric;
 	public $lyricSource;
+	public $songbooks;
 
 
 	public function __construct(Nette\Database\Context $database)
@@ -60,6 +67,7 @@ class SongItem extends Nette\Object
 			$this->interpreter = $song->interpreter;
 			$this->lyric = $this->markupParser($song->lyric);
 			$this->lyricSource= $song->lyric;
+			$this->songbooks = $this->getUsedSongbooksIDs();
 
 			return true;
 
@@ -67,6 +75,23 @@ class SongItem extends Nette\Object
 			return false;
 		}
 
+	}
+
+	/**
+	 * Get list of used songbooks IDs.
+	 * @return array list of songbook ids.
+	 */
+	protected function getUsedSongbooksIDs()
+	{
+		$songbooks = $this->database->table(self::RELATION_TABLE_NAME )->select('*')->where(self::RELATION_SONG, $this->id)->fetchAll();
+		foreach ($songbooks as $songbook) {
+			$ids[] = $songbook->zabe_songbooks_id;
+		}
+		if (!empty($ids)) {
+			return $ids;
+		} else {
+			return false;
+		}
 	}
 
 	/**
