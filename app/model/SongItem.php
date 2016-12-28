@@ -30,6 +30,7 @@ class SongItem extends Nette\Object
 	public $guid;
 	public $interpreter;
 	public $lyric;
+	public $lyricSource;
 
 
 	public function __construct(Nette\Database\Context $database)
@@ -58,6 +59,7 @@ class SongItem extends Nette\Object
 			$this->guid = $song->guid;
 			$this->interpreter = $song->interpreter;
 			$this->lyric = $this->markupParser($song->lyric);
+			$this->lyricSource= $song->lyric;
 
 			return true;
 

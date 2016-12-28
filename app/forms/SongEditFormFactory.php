@@ -48,7 +48,7 @@ class SongEditFormFactory
 		     ->setRequired('Prosím, zadej zázev pro URL.');
 
 		$form->addTextarea('lyric', 'Text:')
-			->setDefaultValue($song->lyric)
+			->setDefaultValue($song->lyricSource)
 			->setRequired('Prosím, vlož text.');
 
 		$form->addSubmit('send', 'Uložit píseň');
