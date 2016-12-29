@@ -34,19 +34,24 @@ class SignUpFormFactory
 	{
 		$form = $this->factory->create();
 		$form->addText('username', 'Uživatelské jméno:')
-			->setRequired('Prosím, zadej uživatelské jméno.');
+			->setRequired('Prosím, zadej uživatelské jméno.')
+			->setAttribute('class', 'form-input form-text');
 
-		$form->addText('firstname', 'Křestní jméno:');
+		$form->addText('firstname', 'Křestní jméno:')
+			->setAttribute('class', 'form-input form-text');
 
-		$form->addText('surname', 'Příjmení:');
+		$form->addText('surname', 'Příjmení:')
+			->setAttribute('class', 'form-input form-text');
 
 		$form->addEmail('email', 'E-mail:')
-			->setRequired('Prosím zadejte svůj e-mail.');
+			->setRequired('Prosím zadejte svůj e-mail.')
+			->setAttribute('class', 'form-input form-text');
 
 		$form->addPassword('password', 'Heslo:')
 			->setOption('description', sprintf('alespoň %d znaků', self::PASSWORD_MIN_LENGTH))
 			->setRequired('Heslo.')
-			->addRule($form::MIN_LENGTH, NULL, self::PASSWORD_MIN_LENGTH);
+			->addRule($form::MIN_LENGTH, NULL, self::PASSWORD_MIN_LENGTH)
+			->setAttribute('class', 'form-input form-text form-pass');
 
 		$form->addSubmit('send', 'Vytvořit účet');
 

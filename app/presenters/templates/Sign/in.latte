@@ -1,6 +1,12 @@
+{block title}Přihlásit{/block}
+
 {block content}
-<h1 n:block=title>Přihlásit</h1>
 
-{control signInForm}
+{capture $subtitle}Ještě nemáš účet? <a href="{link Sign:up}">Založ si ho</a>.{/capture}
 
-<p><a n:href="up">Ještě nemáš účet? Založ si ho.</a></p>
+{include '../components/form.latte'
+form => 'signInForm',
+title => 'Přihlásit',
+subtitle => $subtitle }
+
+
