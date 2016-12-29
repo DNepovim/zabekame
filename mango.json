@@ -1,0 +1,34 @@
+{
+  "src_folder": "theme",
+  "dist_folder": "public/assets",
+  "styles": [
+    "theme/styles/admin.styl",
+    "theme/styles/public.styl",
+    "theme/styles/print.styl"
+  ],
+  "scripts": [
+    "theme/scripts/index.es6"
+  ],
+  "images": [
+    "theme/images/**/*.{jpg,png,gif}"
+  ],
+  "dependencies": [
+    "jquery",
+    "lt-ie-9"
+  ],
+  "watch": [
+    "theme/**/*.{styl}",
+    "app/**/*.{latte,php}"
+  ],
+  "hooks": {
+    "init": "mango install"
+  },
+  "snippet": "yes please",
+  "version": ">=0.24",
+  "sprites": [
+    {
+      "path": "theme/sources/*.svg",
+      "name": false
+    }
+  ]
+}
