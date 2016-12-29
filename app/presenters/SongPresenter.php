@@ -9,8 +9,6 @@ use Nette;
 use App\Forms;
 
 
-
-
 class SongPresenter extends BasePresenter
 {
 	/** @var Forms\SongFormFactory @inject */
@@ -18,6 +16,9 @@ class SongPresenter extends BasePresenter
 
 	/** @var Forms\SongEditFormFactory @inject */
 	public $songEditFactory;
+
+	/** @var Forms\SongImportFormFactory @inject */
+	public $songImportFactory;
 
 	public $id;
 
@@ -87,5 +88,18 @@ class SongPresenter extends BasePresenter
 
 		return $this->songEditFactory->create(function () {
 		}, $song, $songbooksList);
+	}
+
+	/**
+	 * Song form factory.
+	 * @return Nette\Application\UI\Form
+	 */
+	protected function createComponentSongImportForm()
+	{
+		$user = $this->getUser()->id;
+
+		return $this->songImportFactory->create(function ($guid) {
+			$this->redirect('Song:edit', $guid);
+		}, $user);
 	}
 }

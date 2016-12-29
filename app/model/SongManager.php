@@ -3,6 +3,9 @@
 namespace App\Model;
 
 use Nette;
+use Nette\Utils\Strings;
+use DOMDocument;
+use DOMXPath;
 
 
 /**
@@ -46,7 +49,7 @@ class SongManager extends Nette\Object
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
-	public function add($user_id, $title, $guid, $interpreter, $lyric, $songbooks)
+	public function add($user_id, $title, $guid, $interpreter, $lyric, $songbooks = null)
 	{
 		try {
 			$song = $this->database->table(self::TABLE_NAME)->insert([
@@ -57,11 +60,13 @@ class SongManager extends Nette\Object
 				self::COLUMN_LYRIC => $lyric,
 			]);
 
-			foreach ($songbooks as $songbook) {
-				$songRelation = $this->database->table(self::RELATION_TABLE_NAME)->insert([
-					self::RELATION_SONGBOOK => $songbook,
-					self::RELATION_SONG=> $song,
-				]);
+			if (!empty($songbooks)) {
+				foreach ($songbooks as $songbook) {
+					$songRelation = $this->database->table(self::RELATION_TABLE_NAME)->insert([
+						self::RELATION_SONGBOOK => $songbook,
+						self::RELATION_SONG=> $song,
+					]);
+				}
 			}
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
@@ -100,6 +105,72 @@ class SongManager extends Nette\Object
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}
+	}
+
+
+	public function import( $user, $url, $source)
+	{
+		if ($source == 'sm') {
+			$data = $this->importFromSM($url);
+		}
+
+		$guid = Strings::webalize($data['title']);
+
+		$songManager = new SongManager($this->database);
+		$song = $songManager->add($user, $data['title'], $guid, $data['interpreter'], $data['lyric']);
+
+		return $song;
+	}
+
+	private function importFromSM($url)
+	{
+
+		$dokument = new DOMDocument();
+
+		@$dokument->loadHTMLFile($url);
+
+		$xpath = new \DOMXPath($dokument);
+
+		$pageTitle = $xpath->query('//title')->item(0)->nodeValue;
+		$pageTitle = explode(' - ', $pageTitle);
+
+		$interpret = preg_replace('/ \[.*/', '', $pageTitle[1]);
+		$title = $pageTitle[0];
+
+		$content = $xpath->query('//td[@class="piesen"]/font')->item(0)->C14N();
+
+		$pattern[] = '/<script(.*?)\/script>/s';
+		$pattern[] = '/<font(.*?)>/';
+		$pattern[] = '/<(.?)sup>/';
+		$pattern[] = '/<\/font>.*/';
+		$pattern[] = '/&#xD;/';
+		$pattern[] = '/<br>(.*?)<\/br>/';
+
+		$replacement[] = '';
+		$replacement[] = '';
+		$replacement[] = '';
+		$replacement[] = '';
+		$replacement[] = '';
+		$replacement[] = "\n";
+
+		$filteredContent = preg_replace($pattern, $replacement, $content);
+
+		$pattern[] = '/<a(.*?)>(.*?)<\/a>/';
+
+		$markupedContent = preg_replace_callback('/<a(.*?)>(.*?)<\/a>/',
+			function ($matches){
+				return '<'. ucfirst($matches[2]) . '>';
+			},
+			$filteredContent);
+
+		$data = array(
+			'title' => $title,
+			'interpreter' => $interpret,
+			'lyric' => $markupedContent
+		);
+
+		return $data;
+
 	}
 
 	private function guidExist($guid)
