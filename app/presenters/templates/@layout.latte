@@ -17,6 +17,14 @@
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
+    {if !empty($currentUser)}
+		<p>Jsi přihlášen jako {$currentUser['firstname']} {$currentUser['surname']} ({$currentUser['username']})</p>
+		<a n:href="Sign:out">Odhlásit</a>
+	{else}
+        <p>Nejsi přihlášen</p>
+		<a n:href="Sign:in">Přihlásit</a>
+    {/if}
+
 	{include content}
 
 	{block scripts}

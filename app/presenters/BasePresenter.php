@@ -17,4 +17,15 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$this->database = $database;
 	}
 
+	public function beforeRender() {
+		parent::beforeRender();
+
+		$user = $this->getUser();
+
+		if ($user->isLoggedIn()) {
+			$this->template->currentUser = $user->identity->getRoles();
+		}
+
+	}
+
 }
