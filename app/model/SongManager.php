@@ -134,8 +134,8 @@ class SongManager extends Nette\Object
 		$pageTitle = $xpath->query('//title')->item(0)->nodeValue;
 		$pageTitle = explode(' - ', $pageTitle);
 
-		$interpret = preg_replace('/ \[.*/', '', $pageTitle[1]);
-		$title = $pageTitle[0];
+		$title = preg_replace('/ \[.*/', '', $pageTitle[1]);
+		$interpreter = $pageTitle[0];
 
 		$content = $xpath->query('//td[@class="piesen"]/font')->item(0)->C14N();
 
@@ -165,7 +165,7 @@ class SongManager extends Nette\Object
 
 		$data = array(
 			'title' => $title,
-			'interpreter' => $interpret,
+			'interpreter' => $interpreter,
 			'lyric' => $markupedContent
 		);
 
