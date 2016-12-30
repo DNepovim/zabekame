@@ -15,7 +15,8 @@ if(DEBUG) console.time('Components initialization')
 //
 // Components declarations
 var components = {
-	'shapes': require('./components/shapes')
+	'shapes': require('./components/shapes'),
+	'guidprompt': require('./components/guidprompt')
 }
 var instances = []
 
