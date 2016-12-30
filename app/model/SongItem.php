@@ -101,16 +101,12 @@ class SongItem extends Nette\Object
 	 */
 	protected function markupParser($text) {
 
-		$pattern[] = '/<[v]>/';
-		$pattern[] = '/<([\/v]{2})>/';
-		$pattern[] = '/<[ch]{2}>/';
-		$pattern[] = '/<([\/ch]{3})>/';
+		$pattern[] = '/<[v|s]>/';
+		$pattern[] = '/<[ch|r]>/';
 		$pattern[] = '/<([a-zA-Z1-9]*)>/';
-		$replacement[] = '<div class="verse">';
-		$replacement[] = '</div>';
-		$replacement[] = '<div class="chorus">';
-		$replacement[] = '</div>';
-		$replacement[] = '<span class="chord"><i>$1</i></span>';
+		$replacement[] = '<span class="verse"></span>';
+		$replacement[] = '<span class="chorus"></span>';
+		$replacement[] = '<span class="chord">$1</span>';
 		$markuped = nl2br(preg_replace($pattern, $replacement, $text));
 
 		$line_list = explode('<br />', $markuped);
