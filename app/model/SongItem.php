@@ -101,26 +101,46 @@ class SongItem extends Nette\Object
 	 */
 	protected function markupParser($text) {
 
+		$verseTag = '<span class="chord-verse"></span>';
+		$chorusTag = '<span class="chord-chorus">R:</span>';
+
 		$pattern[] = '/<[v|s]>/';
 		$pattern[] = '/<[ch|r]>/';
 		$pattern[] = '/<([a-zA-Z1-9]*)>/';
-		$replacement[] = '<span class="verse"></span>';
-		$replacement[] = '<span class="chorus"></span>';
+		$replacement[] = $verseTag;
+		$replacement[] = $chorusTag;
 		$replacement[] = '<span class="chord">$1</span>';
 		$markuped = nl2br(preg_replace($pattern, $replacement, $text));
 
 		$line_list = explode('<br />', $markuped);
 
 		$i = 0;
+		$verse = 0;
 		foreach ($line_list as $line) {
 
 			$line_list[$i] = str_replace('<br />', '', $line_list[$i]);
 
-			if (strpos($line, '<span class="chord">')) {
+			if (strpos($line_list[$i], '<span class="chord">')) {
 				$line_list[$i] = '<p class="chord-line">' . $line_list[$i] . '</p>';
 			} elseif (!preg_match('/^<\/div>$/', trim($line_list[$i]))&&!preg_match('/^<div class=\"(verse|chorus)\">$/', trim($line_list[$i]))) {
 				$line_list[$i] .= '<br>';
 			}
+
+			if (strpos($line_list[$i], $verseTag)) {
+				$line_list[$i] = str_replace($verseTag, '<span class="chord-verse">' . ++$verse . '.</span>', $line_list[$i]);
+			}
+
+			if (strpos($line_list[$i], $chorusTag)) {
+				if (trim($line_list[$i]) !== $chorusTag . '<br>') {
+					$chorusLine = $line_list[$i];
+				} else {
+					if (!empty($chorusLine)) {
+						$line_list[$i] = preg_replace('/<span class="chord">([a-zA-Z1-9]*)<\/span>/', '', $chorusLine);
+						$line_list[$i] = $chorusTag . substr(trim(strip_tags($line_list[$i])), 2) . '&hellip;<br>';
+					}
+				}
+			}
+
 			$i++;
 		}
 
