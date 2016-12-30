@@ -10,3 +10,4 @@ app/config/config.local.neon
 
 public/assets
 public/files
+/.mango-snippet.html
