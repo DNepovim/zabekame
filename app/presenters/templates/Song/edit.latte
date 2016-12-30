@@ -1,6 +1,7 @@
+{block title}Upravit písničku{/block}
 {block content}
-<a n:href=":detail $id">Zpět</a>
-<h1 n:block=title>Upravit písničku</h1>
+<a n:href=":detail $id">Zpět na píseň</a>
 
-{control songEditForm }
+{include '../components/songForm.latte'
+form => 'songEditForm'}
 

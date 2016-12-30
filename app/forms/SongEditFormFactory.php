@@ -37,14 +37,20 @@ class SongEditFormFactory
 
 		$form->addText('title', 'Název')
 			->setDefaultValue($song->title)
+			->setAttribute('placeholder', 'Název')
+			->setAttribute('autocomplete', 'off')
 			->setRequired('Prosím, zadej název písně.');
 
 
 		$form->addText('interpreter', 'Interpret')
+			->setAttribute('placeholder', 'Interpret')
+			->setAttribute('autocomplete', 'off')
 			->setDefaultValue($song->interpreter);
 
 		$form->addText('guid', 'Název v URL')
 			->setDefaultValue($song->guid)
+			->setAttribute('placeholder', 'název-v-url')
+			->setAttribute('autocomplete', 'off')
 		     ->setRequired('Prosím, zadej zázev pro URL.');
 
 		foreach ($songbooks as $item) {
@@ -62,6 +68,7 @@ class SongEditFormFactory
 
 		$form->addTextarea('lyric', 'Text:')
 			->setDefaultValue($song->lyricSource)
+			->setAttribute('placeholder', 'Text písně')
 			->setRequired('Prosím, vlož text.');
 
 		$form->addSubmit('send', 'Uložit píseň');

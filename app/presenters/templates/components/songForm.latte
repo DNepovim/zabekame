@@ -1,0 +1,25 @@
+<div class="songedit-box">
+    <form n:name=$form>
+        <fieldset class="songedit-fieldset songedit-fieldset-title">
+            {input title class => 'songedit-input songedit-text songedit-title title title-main'}
+            {*<span class=error n:ifcontent>{$input->error}</span>*}
+        </fieldset>
+        <fieldset class="songedit-fieldset songedit-fieldset-half">
+            {dump}
+            <label n:name=guid class="songedit-label songedit-url">https://zabeka.me/{$currentUser['username']|webalize}/</label>
+            {input guid class => 'songedit-input songedit-text songedit-guid'}
+        </fieldset>
+        <fieldset class="songedit-fieldset songedit-fieldset-half">
+            {input interpreter class => 'songedit-input songedit-text songedit-interpreter'}
+        </fieldset>
+        <fieldset class="songedit-fieldset">
+            {input lyric class => 'songedit-input songedit-text songedit-lyric', id => 'song-editor'}
+        </fieldset>
+        <fieldset class="songedit-fieldset">
+            {input send class => 'songedit-input songedit-button'}
+        </fieldset>
+        <ul class="errors" n:if="$form->hasErrors()">
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </ul>
+    </form>
+</div>
