@@ -1,10 +1,14 @@
 {block content}
-<header id="banner">
-    <h1 n:block=title class="title title-song">{$song->title}</h1>
-    <p class="subtitle">{$song->interpreter}</p>
+<div>
     <a n:href=":edit $song->guid">Upravit</a>
-</header>
+</div>
 
-<article class="lyric">
-    {$song->lyric|noescape}
+<article class="song-box">
+    <header class="song-fieldset">
+        <h1 class="song-input song-text song-title title title-main">{$song->title}</h1>
+        <p class="song-input song-text song-interpreter">{$song->interpreter}</p>
+    </header>
+    <div class="song-fieldset song-lyric">
+        {$song->lyric|noescape}
+    </div>
 </article>

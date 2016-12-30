@@ -1,4 +1,4 @@
-.songedit
+.song
     &-box
         max-width 600px
         margin 5vh auto
@@ -8,10 +8,8 @@
         background none
 
     &-title
-        font-size 4rem
-        font-weight 300
-        line-height 1rem
-        padding 0 0.05em
+        padding 0
+        margin 0
 
     &-url
         color $c-text-light
@@ -22,19 +20,21 @@
         width 40%
         padding 0
 
+        &.exist
+            background-color $c-error-background
+
     &-interpreter
         width 100%
-        text-align right
         font-style italic
 
     &-lyric
+        font-size 1.2rem
         width 100%
         min-height 70vh
 
     &-fieldset
         &-half
             display inline-block
-            width 49%
 
         &-title
             position relative

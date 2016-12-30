@@ -16,7 +16,9 @@
 	{block head}{/block}
 </head>
 
-<body>
+<body class="{$presenter->request->getParameter('action')|webalize} {$presenter->request->getPresenterName()|webalize}">
+
+
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
     <header class="main-header">
