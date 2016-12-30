@@ -75,7 +75,7 @@ class SongEditFormFactory
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
 			$this->songManager->edit( $values->id, $values->title, $values->guid, $values->interpreter, $values->lyric, $values->songbooks );
-			$onSuccess();
+			$onSuccess($values->guid);
 		};
 
 		return $form;
