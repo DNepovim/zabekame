@@ -54,6 +54,22 @@ class SongPresenter extends BasePresenter
 	public function renderEdit( $id )
 	{
 		$this->template->id = $this->id = $id;
+
+		$user = $this->getUser()->id;
+
+		$songManager = new SongManager($this->database);
+
+		if (is_numeric($id)) {
+			$guid = $songManager->getGuidById($id);
+		} else {
+			$guid = $id;
+		}
+
+		$guids = $songManager->getListOfUserGuids($user);
+		$guids = array_diff($guids, array($guid));
+
+		$this->template->guids = $guids;
+
 	}
 
 	/**
@@ -83,10 +99,11 @@ class SongPresenter extends BasePresenter
 
 		$user = $this->getUser()->id;
 
-		$songbooks = new SongbookManager($this->database);
-		$songbooksList = $songbooks->getUsersSongbooks($user);
+		$songbookManager = new SongbookManager($this->database);
+		$songbooksList = $songbookManager->getUsersSongbooks($user);
 
-		return $this->songEditFactory->create(function () {
+		return $this->songEditFactory->create(function ($guid) {
+			$this->redirect('Song:edit', $guid);
 		}, $song, $songbooksList);
 	}
 

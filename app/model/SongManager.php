@@ -173,6 +173,11 @@ class SongManager extends Nette\Object
 
 	}
 
+	public function getListOfUserGuids($user)
+	{
+		return $this->database->table(self::TABLE_NAME )->where(self::COLUMN_USER, $user)->fetchPairs(self::COLUMN_ID, self::COLUMN_GUID);
+	}
+
 	private function guidExist($guid)
 	{
 
@@ -199,6 +204,18 @@ class SongManager extends Nette\Object
 	{
 		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_ID, $ids)->fetchAll();
 	}
+
+	/**
+	 * Get guid by id
+	 * @songbook string Songbook ID
+	 * @return array of songs
+	 */
+	public function getGuidById($id)
+	{
+		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_GUID)->get($id)->guid;
+	}
+
+
 
 
 }

@@ -5,7 +5,6 @@
             {*<span class=error n:ifcontent>{$input->error}</span>*}
         </fieldset>
         <fieldset class="songedit-fieldset songedit-fieldset-half">
-            {dump}
             <label n:name=guid class="songedit-label songedit-url">https://zabeka.me/{$currentUser['username']|webalize}/</label>
             {input guid class => 'songedit-input songedit-text songedit-guid', id => 'songedit-guid'}
         </fieldset>
@@ -24,17 +23,29 @@
     </form>
 </div>
 
-{if $state='add'}
-    <script n:syntax="off">
-        initComponents = [
-            {
-                name: 'guidprompt',
-                place: '#songedit',
-                data: {
-                    title: '#songedit-title',
-                    guid: '#songedit-guid'
-                }
+{if $state == 'edit' ||  !empty($guids)}
+<script>
+    initComponents = [
+        {if $state == 'edit'}
+        {
+            name: 'guidprompt',
+            place: '#songedit',
+            data: {
+                title: '#songedit-title',
+                guid: '#songedit-guid'
             }
-        ]
-    </script>
+        },
+        {/if}
+        {if !empty($guids)}
+        {
+            name: 'guidcheck',
+            place: '#songedit',
+            data: {
+                input: '#songedit-guid',
+                guids: {$guids}
+            }
+        },
+        {/if}
+    ]
+</script>
 {/if}
