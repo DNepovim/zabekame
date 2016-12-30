@@ -35,13 +35,19 @@ class SongFormFactory
 		$form->addHidden('user', $user);
 
 		$form->addText('title', 'Název')
+			->setAttribute('placeholder', 'Název')
+			->setAttribute('autocomplete', 'off')
 			->setRequired('Prosím, zadej název písně.');
 
 
-		$form->addText('interpreter', 'Interpret');
+		$form->addText('interpreter', 'Interpret')
+			->setAttribute('placeholder', 'Interpret')
+			->setAttribute('autocomplete', 'off');
 
 		$form->addText('guid', 'Název v URL')
-		     ->setRequired('Prosím, zadej zázev pro URL.');
+			->setAttribute('placeholder', 'název-v-url')
+			->setAttribute('autocomplete', 'off')
+			->setRequired('Prosím, zadej zázev pro URL.');
 
 		foreach ($songbooks as $item) {
 			$options[$item->id] = $item->title;
@@ -50,6 +56,7 @@ class SongFormFactory
 		$form->addCheckboxList('songbooks', 'Zpěvník', $options );
 
 		$form->addTextarea('lyric', 'Text:')
+			->setAttribute('placeholder', 'Text písně')
 			->setRequired('Prosím, vlož text.');
 
 		$form->addSubmit('send', 'Uložit píseň');

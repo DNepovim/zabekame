@@ -55,21 +55,19 @@ class SongPresenter extends BasePresenter
 	{
 		$this->template->id = $this->id = $id;
 
-		$user = $this->getUser()->id;
-
-		$songManager = new SongManager($this->database);
-
-		if (is_numeric($id)) {
-			$guid = $songManager->getGuidById($id);
-		} else {
-			$guid = $id;
-		}
-
-		$guids = $songManager->getListOfUserGuids($user);
-		$guids = array_diff($guids, array($guid));
+		$guids = $this->getGuids($id);
 
 		$this->template->guids = $guids;
+	}
 
+	/**
+	 * Render edit
+	 */
+	public function renderAdd()
+	{
+		$guids = $this->getGuids();
+
+		$this->template->guids = $guids;
 	}
 
 	/**
@@ -118,5 +116,32 @@ class SongPresenter extends BasePresenter
 		return $this->songImportFactory->create(function ($guid) {
 			$this->redirect('Song:edit', $guid);
 		}, $user);
+
+	}
+
+	/**
+	 * Get list of related guids
+	 * @return array
+	 */
+	protected function getGuids($id=null)
+	{
+
+		$user = $this->getUser()->id;
+
+		$songManager = new SongManager($this->database);
+
+		$guids = $songManager->getListOfUserGuids($user);
+
+		if ($id) {
+			if (is_numeric($id)) {
+				$guid = $songManager->getGuidById($id);
+			} else {
+				$guid = $id;
+			}
+			$guids = array_diff($guids, array($guid));
+		}
+
+		return $guids;
 	}
 }
+

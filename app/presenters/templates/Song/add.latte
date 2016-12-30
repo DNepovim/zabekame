@@ -1,5 +1,7 @@
+{block title}Přidat písničku{/block}
 {block content}
-<h1 n:block=title>Přidat písničku</h1>
 
-{control songForm }
+{include '../components/songForm.latte'
+form => 'songForm',
+state => 'add'}
 

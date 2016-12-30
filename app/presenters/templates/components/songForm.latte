@@ -23,10 +23,10 @@
     </form>
 </div>
 
-{if $state == 'edit' ||  !empty($guids)}
+{if $state == 'add' ||  !empty($guids)}
 <script>
     initComponents = [
-        {if $state == 'edit'}
+        {if $state == 'add'}
         {
             name: 'guidprompt',
             place: '#songedit',
