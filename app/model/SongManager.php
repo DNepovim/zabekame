@@ -200,9 +200,9 @@ class SongManager extends Nette\Object
 	 * @songbook string Songbook ID
 	 * @return array of songs
 	 */
-	public function getSongsByIds($ids)
+	public function getSongsById($id)
 	{
-		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_ID, $ids)->fetchAll();
+		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_ID, $id)->fetchAll();
 	}
 
 	/**
