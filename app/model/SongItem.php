@@ -105,7 +105,7 @@ class SongItem extends Nette\Object
 		$chorusTag = '<span class="chord-chorus">R:</span>';
 
 		$pattern[] = '/<[v|s]>/';
-		$pattern[] = '/<[ch|r]>/';
+		$pattern[] = '/<(ch|r)>/';
 		$pattern[] = '/<([a-zA-Z1-9]*)>/';
 		$replacement[] = $verseTag;
 		$replacement[] = $chorusTag;
