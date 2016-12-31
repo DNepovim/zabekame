@@ -1,25 +1,27 @@
 <div class="song-box">
     <form n:name=$form id="songedit">
-        <fieldset class="song-fieldset song-fieldset-title">
+        {input send class => 'song-button song-link'}
+        <a class="song-link" n:href=":detail $id" n:if="!empty($id)">(zpět na píseň)</a>
+        <fieldset class="song-fieldset">
             {input title class => 'song-input song-text song-title title title-main', id => 'songedit-title'}
             {*<span class=error n:ifcontent>{$input->error}</span>*}
         </fieldset>
-        <fieldset class="song-fieldset song-fieldset-half">
+        <fieldset class="song-fieldset song-fieldset">
             <label n:name=guid class="song-label song-url">https://zabeka.me/{$currentUser['username']|webalize}/</label>
             {input guid class => 'song-input song-text song-guid', id => 'songedit-guid'}
         </fieldset>
-        <fieldset class="song-fieldset song-fieldset-half">
+        <fieldset class="song-fieldset song-fieldset">
             {input interpreter class => 'song-input song-text song-interpreter'}
-        </fieldset>
-        <fieldset class="song-fieldset">
-            {input lyric class => 'song-input song-text song-lyric', id => 'song-editor'}
-        </fieldset>
-        <fieldset class="song-fieldset">
-            {input send class => 'song-input song-button'}
         </fieldset>
         <ul class="errors" n:if="$form->hasErrors()">
             <li n:foreach="$form->errors as $error">{$error}</li>
         </ul>
+        <fieldset class="song-fieldset">
+            {input lyric class => 'song-input song-text song-lyric', id => 'song-editor'}
+        </fieldset>
+        <fieldset class="song-fieldset">
+            {input send class => 'song-button song-link'}
+        </fieldset>
     </form>
 </div>
 

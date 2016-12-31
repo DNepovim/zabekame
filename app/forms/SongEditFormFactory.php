@@ -39,6 +39,7 @@ class SongEditFormFactory
 			->setDefaultValue($song->title)
 			->setAttribute('placeholder', 'Název')
 			->setAttribute('autocomplete', 'off')
+			->setAttribute('autofocus')
 			->setRequired('Prosím, zadej název písně.');
 
 
@@ -51,7 +52,8 @@ class SongEditFormFactory
 			->setDefaultValue($song->guid)
 			->setAttribute('placeholder', 'název-v-url')
 			->setAttribute('autocomplete', 'off')
-		     ->setRequired('Prosím, zadej zázev pro URL.');
+			->setAttribute('tabindex', '-1')
+	        ->setRequired('Prosím, zadej zázev pro URL.');
 
 		foreach ($songbooks as $item) {
 			$options[$item->id] = $item->title;
@@ -71,7 +73,7 @@ class SongEditFormFactory
 			->setAttribute('placeholder', 'Text písně')
 			->setRequired('Prosím, vlož text.');
 
-		$form->addSubmit('send', 'Uložit píseň');
+		$form->addSubmit('send', '(uložit)');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
 			$this->songManager->edit( $values->id, $values->title, $values->guid, $values->interpreter, $values->lyric, $values->songbooks );
