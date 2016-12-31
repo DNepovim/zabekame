@@ -22,14 +22,6 @@ class SongPresenter extends BasePresenter
 
 	public $id;
 
-	public function beforeRender() {
-		parent::beforeRender();
-
-		if (!$this->getUser()->loggedIn) {
-			$this->redirect('Sign:in');
-		}
-	}
-
 	/**
 	 * Render default list */
 	public function renderList( $id = null )
@@ -46,6 +38,7 @@ class SongPresenter extends BasePresenter
 		$songItem = new SongItem($this->database);
 		$songItem->getSong($id);
 		$this->template->song = $songItem;
+		$this->template->editable = $songItem->user->id == $this->user->id;
 	}
 
 	/**
@@ -53,6 +46,19 @@ class SongPresenter extends BasePresenter
 	 */
 	public function renderEdit( $id )
 	{
+		if (!$this->user->isLoggedIn()) {
+			$this->flashMessage('Nejdřív se musíš přihlásit.');
+			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
+		}
+
+		$song = new SongItem($this->database);
+		$song->getSong($id);
+
+		if ($song->user->id !== $this->user->id) {
+			$this->flashMessage('Píseň může editovat pouze vlastník');
+			$this->redirect('Song:detail', $id);
+		}
+
 		$this->template->id = $this->id = $id;
 
 		$guids = $this->getGuids($id);
@@ -65,6 +71,11 @@ class SongPresenter extends BasePresenter
 	 */
 	public function renderAdd()
 	{
+		if (!$this->user->isLoggedIn()) {
+			$this->flashMessage('Nejdřív se musíš přihlásit.');
+			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
+		}
+
 		$guids = $this->getGuids();
 
 		$this->template->guids = $guids;
