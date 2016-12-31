@@ -1,0 +1,22 @@
+{block content}
+<h1 class="title title-name" n:block=title>{$currentUser['firstname']} {$currentUser['surname']}
+    ({$currentUser['username']})
+</h1>
+
+<section class="thumb-list">
+    <h2 class="title title-section">Zpěvníky</h2>
+    <div class="songbook-thumb" n:foreach="$songbooks as $songbook">
+        <a class="songbook-thumb-edit" title="upravit zpěvník" n:href="Songbook:edit, $songbook->guid">
+            {include '../components/shape.latte' name => 'pen'}
+        </a>
+        <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:detail, $songbook->guid">
+            <span class="songbook-thumb-title">{$songbook->title}</span>
+        </a>
+    </div>
+
+    <div class="songbook-thumb">
+        <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:others">
+            <span class="songbook-thumb-title">Ostatní</span>
+        </a>
+    </div>
+</section>

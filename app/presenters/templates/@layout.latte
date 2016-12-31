@@ -15,6 +15,16 @@
 	<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,700&amp;subset=latin-ext" rel="stylesheet">
 	{block head}{/block}
 </head>
+<script>
+	initComponents = [
+		{
+			name: 'shapes',
+			data: {
+				url: '/assets/images/shapes.svg'
+			}
+		}
+	]
+</script>
 
 <body class="{$presenter->request->getParameter('action')|webalize} {$presenter->request->getPresenterName()|webalize}">
 

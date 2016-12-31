@@ -10,7 +10,7 @@
     "theme/scripts/index.es6"
   ],
   "images": [
-    "theme/images/**/*.{jpg,png,gif}"
+    "theme/images/**/*.{jpg,png,gif,svg}"
   ],
   "dependencies": [
     "jquery",

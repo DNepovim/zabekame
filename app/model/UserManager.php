@@ -85,6 +85,11 @@ class UserManager implements Nette\Security\IAuthenticator
 		}
 	}
 
+	public function getIDByNick($nickname)
+	{
+		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_ID)->where(self::COLUMN_NAME, $nickname)->fetchField(self::COLUMN_ID);
+	}
+
 }
 
 

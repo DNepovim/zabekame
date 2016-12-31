@@ -18,7 +18,8 @@ class RouterFactory
 	{
 		$router = new RouteList;
 
-		$router[] = new Route('song/', 'Song:list');
+		$router[] = new Route('dashboard', 'User:dashboard');
+		$router[] = new Route('<user>/others', 'Songbook:others');
 		$router[] = new Route('song/add', 'Song:add');
 		$router[] = new Route('song/import', 'Song:import');
 		$router[] = new Route('song[/<id>]', 'Song:detail');
