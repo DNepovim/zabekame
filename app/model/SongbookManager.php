@@ -64,7 +64,7 @@ class SongbookManager extends Nette\Object
 	 */
 	public function getUsersSongbooks($user)
 	{
-		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user);
+		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user)->order(self::COLUMN_ORDER)->fetchAll();
 	}
 
 }
