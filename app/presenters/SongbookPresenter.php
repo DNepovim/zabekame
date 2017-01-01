@@ -25,15 +25,6 @@ class SongbookPresenter extends BasePresenter
 	}
 
 	/**
-	 * Render songbooks list
-	 */
-	public function renderList()
-	{
-		$songbookManager = new SongbookManager($this->database);
-		$this->template->songbooks = $songs = $songbookManager->getUsersSongbooks($this->getUser()->id);
-	}
-
-	/**
 	 * Render songbook detail
 	 */
 	public function renderDetail($id)
@@ -45,9 +36,24 @@ class SongbookPresenter extends BasePresenter
 
 		$songsManager = new SongManager($this->database);
 
-		$this->template->songbook = $songbookItem;
+		$this->template->title = $songbookItem->title;
 		$this->template->songs = $songsManager->getSongsById($ids);
 	}
+
+	/**
+	 * Render songbook with uncategorized songs
+	 *
+	 */
+	public function renderOthers($user)
+	{
+		$songManager = new SongManager($this->database);
+		$this->template->songs = $songManager->getOthersSongs($user);
+		$this->template->title = 'Ostatní';
+
+		$this->setView('detail');
+
+	}
+
 	/**
 	 * Songbook form factory.
 	 * @return Nette\Application\UI\Form
