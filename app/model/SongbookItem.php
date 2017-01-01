@@ -86,9 +86,13 @@ class SongbookItem extends Nette\Object
 		}
 
 
-		foreach ($relations as $relation) {
-			$ids[] = $relation->zabe_songs_id;
+		if (!empty($relations)) {
+			foreach ($relations as $relation) {
+				$ids[] = $relation->zabe_songs_id;
+			}
+			return $ids;
+		} else {
+			return false;
 		}
-		return $ids;
 	}
 }
