@@ -1,0 +1,55 @@
+<div class="song-box">
+    <form n:name=$form id="songedit">
+        <label class="song-link button" for="send"><i class="fa fa-floppy-o" aria-hidden="true"></i>uložit</label>
+        <a class="song-link button" n:href=":detail $id" n:if="!empty($id)"><i class="fa fa-eye" aria-hidden="true"></i>zobrazit zpěvník</a>
+        <a class="song-link button" n:href="User:dashboard"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na nástěnku </a>
+        <fieldset class="song-fieldset">
+            {input title class => 'song-input song-text song-title title title-main', id => 'songedit-title'}
+            {*<span class=error n:ifcontent>{$input->error}</span>*}
+        </fieldset>
+        <fieldset class="song-fieldset song-fieldset">
+            <label n:name=guid for="songedit-guid" class="song-label song-url">https://zabeka.me/{$currentUser['username']|webalize}/</label>
+            {input guid class => 'song-input song-text song-guid', id => 'songedit-guid'}
+        </fieldset>
+        <ul class="errors" n:if="$form->hasErrors()">
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </ul>
+        <fieldset class="song-fieldset">
+            <label class="checkbox" n:name="default">
+                <input type="checkbox" class="checkbox-input" n:name="default">
+                <span class="checkbox-label">hlavní zpěvník</span>
+            </label>
+        </fieldset>
+        <fieldset class="song-fieldset">
+            <label class="song-link button" for="send"><i class="fa fa-floppy-o" aria-hidden="true"></i>uložit</label>
+            {input send id => 'send', class => 'hidden'}
+        </fieldset>
+    </form>
+</div>
+
+{if $state == 'add' ||  !empty($guids)}
+<script>
+    initComponents = [
+        {if $state == 'add'}
+        {
+            name: 'guidprompt',
+            place: '#songedit',
+            data: {
+                title: '#songedit-title',
+                guid: '#songedit-guid'
+            }
+        },
+        {/if}
+        {if !empty($guids)}
+        {
+            name: 'guidcheck',
+            place: '#songedit',
+            data: {
+                input: '#songedit-guid',
+                guids: {$guids}
+            }
+        },
+        {/if}
+    ]
+</script>
+{/if}

@@ -35,9 +35,14 @@ class SongbookFormFactory
 		$form->addHidden('user', $user);
 
 		$form->addText('title', 'Název')
+			->setAttribute('placeholder', 'Název zpěvníku')
+			->setAttribute('autocomplete', 'off')
+			->setAttribute('autofocus')
 			->setRequired('Prosím, zadej název zpěvníku.');
 
 		$form->addText('guid', 'Název v URL')
+			->setAttribute('placeholder', 'název-v-url')
+			->setAttribute('autocomplete', 'off')
 		     ->setRequired('Prosím, zadej zázev pro URL.');
 
 		$form->addCheckbox('default', 'Hlavní zpěvník');

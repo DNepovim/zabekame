@@ -1,5 +1,7 @@
+{block title}Přidat zpěvník{/block}
 {block content}
-<h1 n:block=title>Přidat zpěvník</h1>
 
-{control songbookForm }
+{include '../components/songbookForm.latte'
+form => 'songbookForm',
+state => 'add'}
 
