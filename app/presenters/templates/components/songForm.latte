@@ -2,7 +2,13 @@
     <form n:name=$form id="songedit">
         <label class="song-link button" for="send"><i class="fa fa-floppy-o" aria-hidden="true"></i>uložit</label>
         <a class="song-link button" n:href=":detail $id" n:if="!empty($id)"><i class="fa fa-eye" aria-hidden="true"></i>zobrazit píseň</a>
-        <a class="song-link button" n:href="Songbook:detail $backToSongbook->guid" n:if="!empty($backToSongbook)"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na zpěvník {$backToSongbook->title}</a>
+        {if !empty($backToSongbook)}
+            {if $backToSongbook !== 'others'}
+                <a class="song-link button" n:href="Songbook:detail $backToSongbook->guid"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na zpěvník {$backToSongbook->title}</a>
+            {else}
+                <a class="song-link button" n:href="Songbook:others"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na ostatní</a>
+            {/if}
+        {/if}
         <fieldset class="song-fieldset">
             {input title class => 'song-input song-text song-title title title-main', id => 'songedit-title'}
             {*<span class=error n:ifcontent>{$input->error}</span>*}

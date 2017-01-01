@@ -34,18 +34,29 @@ class SongPresenter extends BasePresenter
 	/**
 	 * Render detail
 	 */
-	public function renderDetail( $id )
+	public function renderDetail( $id, $songbook = -1 )
 	{
 		$songItem = new SongItem($this->database);
 		$songItem->getSong($id);
 		$this->template->song = $songItem;
 		$this->template->editable = $songItem->user->id == $this->user->id;
+
+		if ($songbook == -1) {
+			$this->template->backToSongbook = false;
+		} else if ($songbook == 0) {
+			$this->template->backToSongbook = 'others';
+		} else {
+			$songbookItem = new SongbookItem($this->database);
+			$songbookItem->getSongbook($songbook);
+
+			$this->template->backToSongbook = $songbookItem;
+		}
 	}
 
 	/**
 	 * Render edit
 	 */
-	public function renderEdit( $id, $songbook = null )
+	public function renderEdit( $id, $songbook = -1 )
 	{
 		if (!$this->user->isLoggedIn()) {
 			$this->flashMessage('Nejdřív se musíš přihlásit.');
@@ -61,7 +72,11 @@ class SongPresenter extends BasePresenter
 		}
 
 
-		if (!empty($songbook)) {
+		if ($songbook == -1) {
+			$this->template->backToSongbook = false;
+		} else if ($songbook == 0) {
+			$this->template->backToSongbook = 'others';
+		} else {
 			$songbookItem = new SongbookItem($this->database);
 			$songbookItem->getSongbook($songbook);
 

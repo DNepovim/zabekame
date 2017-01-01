@@ -9,7 +9,7 @@
 <section class="list">
     <ul>
         <li n:foreach="$songs as $song">
-            <a n:href="Song:detail $song->guid">{$song->title}, {$song->interpreter}</a>
+            <a n:href="Song:detail $song->guid, $id">{$song->title}, {$song->interpreter}</a>
             <a class="icon icon-edit" n:href="Song:edit $song->guid, $id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         </li>
     </ul>
