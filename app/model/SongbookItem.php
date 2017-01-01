@@ -34,6 +34,7 @@ class SongbookItem extends Nette\Object
 	public $user;
 	public $title;
 	public $guid;
+	public $default;
 	public $order;
 
 
@@ -61,6 +62,7 @@ class SongbookItem extends Nette\Object
 			$this->user = $songbook->user;
 			$this->title = $songbook->title;
 			$this->guid = $songbook->guid;
+			$this->default = $songbook->default;
 			$this->order = $songbook->order;
 
 			return true;

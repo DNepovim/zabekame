@@ -26,6 +26,8 @@ services:
 	- App\Forms\SignUpFormFactory
 	- App\Forms\SongFormFactory
 	- App\Forms\SongEditFormFactory
-	- App\Forms\SongbookFormFactory
 	- App\Forms\SongImportFormFactory
+	- App\Forms\SongbookFormFactory
+	- App\Forms\SongbookEditFormFactory
+
 	router: App\RouterFactory::createRouter

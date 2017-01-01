@@ -62,9 +62,38 @@ class SongbookManager extends Nette\Object
 		return $songbook;
 	}
 
-	private function guidExist($guid)
+	/**
+	 * Edit songbook.
+	 * @param  string Songbook title
+	 * @param  string Songbook guid
+	 * @return Songbook
+	 * @throws DuplicateNameException
+	 */
+	public function edit($songbookID, $title, $guid, $default )
 	{
+		try {
+			// if is default options checket, remove all default values and set new
+			if ($default) {
+				$songbookItem = new SongbookItem($this->database);
+				$songbookItem->getSongbook($songbookID);
 
+				$songbooks = $this->getUsersSongbooks($songbookItem->user->id);
+				foreach ($songbooks as $songbook) {
+					$songbooksID[] = $songbook->id;
+				}
+				$this->database->table(self::TABLE_NAME)->where(self::COLUMN_ID, $songbooksID)->update( [self::COLUMN_DEFAULT => 0] );
+			}
+
+			$songbook = $this->database->table(self::TABLE_NAME)->where(self::COLUMN_ID, $songbookID)->update([
+				self::COLUMN_TITLE => $title,
+				self::COLUMN_GUID => $guid,
+				self::COLUMN_DEFAULT => $default,
+			]);
+
+		} catch (Nette\Database\UniqueConstraintViolationException $e) {
+			throw new DuplicateNameException;
+		}
+		return $songbook;
 	}
 
 	/**

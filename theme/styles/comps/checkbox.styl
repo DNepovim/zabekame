@@ -1,5 +1,5 @@
 .checkbox
-    display flex
+    display inline-flex
     position relative
     cursor pointer
     margin 1em 0
@@ -28,7 +28,7 @@
             top 0.2em
             left 0
             background $c-blank
-            transition 100ms ease-in-out
+            transition border-color 300ms, top 300ms, transform 300ms
 
     &-input
         margin 0 0.5em 0 0
@@ -42,3 +42,12 @@
                 transform rotate(-45deg)
                 width 0.75em
                 border-color $c-text
+
+    &:hover &
+        &-label
+            color $c-text
+
+            &:after
+                border-color  $c-text
+                top 0
+

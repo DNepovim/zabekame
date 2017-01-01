@@ -16,6 +16,10 @@ class SongbookPresenter extends BasePresenter
 	/** @var Forms\SongbookFormFactory @inject */
 	public $songbookFactory;
 
+	/** @var Forms\SongbookEditFormFactory @inject */
+	public $songbookEditFactory;
+
+	public $id;
 	/**
 	 * Render songbook add page
 	 */
@@ -43,6 +47,7 @@ class SongbookPresenter extends BasePresenter
 
 		$songbook = new SongbookItem($this->database);
 		$songbook->getSongbook($id);
+		$this->id = $id;
 
 		if ($songbook->user->id !== $this->user->id) {
 			$this->flashMessage('Píseň může editovat pouze vlastník');
@@ -93,6 +98,20 @@ class SongbookPresenter extends BasePresenter
 		return $this->songbookFactory->create(function ($guid) {
 			$this->redirect('Songbook:detail', $guid);
 		}, $user);
+	}
+
+	/**
+	 * Songbook edit form factory.
+	 * @return Nette\Application\UI\Form
+	 */
+	protected function createComponentSongbookEditForm()
+	{
+		$songbook = new SongbookItem($this->database);
+		$songbook->getSongbook($this->id);
+
+		return $this->songbookEditFactory->create(function ($guid) {
+			$this->redirect('Songbook:detail', $guid);
+		}, $songbook);
 	}
 
 }

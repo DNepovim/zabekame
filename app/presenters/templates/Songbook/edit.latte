@@ -1,5 +1,7 @@
+{block title}Upravit zpěvník{/block}
 {block content}
-<header id="banner">
-    <h1 n:block=title class="title title-song">Edit songbook</h1>
-</header>
+
+{include '../components/songbookForm.latte'
+form => 'songbookEditForm',
+state => 'eidt'}
 
