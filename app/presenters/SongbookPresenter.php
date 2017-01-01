@@ -16,11 +16,33 @@ class SongbookPresenter extends BasePresenter
 	/** @var Forms\SongbookFormFactory @inject */
 	public $songbookFactory;
 
-	public function beforeRender() {
-		parent::beforeRender();
+	/**
+	 * Render songbook add page
+	 */
+	public function renderAdd()
+	{
+		if (!$this->user->isLoggedIn()) {
+			$this->flashMessage('Nejdřív se musíš přihlásit.');
+			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
+		}
+	}
 
-		if (!$this->getUser()->loggedIn) {
-			$this->redirect('Sign:in');
+	/**
+	 * Render songbook edit page
+	 */
+	public function renderEdit($id)
+	{
+		if (!$this->user->isLoggedIn()) {
+			$this->flashMessage('Nejdřív se musíš přihlásit.');
+			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
+		}
+
+		$songbook = new SongbookItem($this->database);
+		$songbook->getSongbook($id);
+
+		if ($songbook->user->id !== $this->user->id) {
+			$this->flashMessage('Píseň může editovat pouze vlastník');
+			$this->redirect('Song:detail', $id);
 		}
 	}
 
@@ -50,6 +72,7 @@ class SongbookPresenter extends BasePresenter
 		$songManager = new SongManager($this->database);
 		$this->template->songs = $songManager->getOthersSongs($user);
 		$this->template->title = 'Ostatní';
+		$this->template->id = false;
 
 		$this->setView('detail');
 
