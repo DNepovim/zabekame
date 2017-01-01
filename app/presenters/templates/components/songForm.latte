@@ -1,7 +1,7 @@
 <div class="song-box">
     <form n:name=$form id="songedit">
         {input send class => 'song-button song-link'}
-        <a class="song-link" n:href=":detail $id" n:if="!empty($id)">(zpět na píseň)</a>
+        <a class="song-link" n:href=":detail $id" n:if="!empty($id)">(zobrazit píseň)</a>
         <fieldset class="song-fieldset">
             {input title class => 'song-input song-text song-title title title-main', id => 'songedit-title'}
             {*<span class=error n:ifcontent>{$input->error}</span>*}
