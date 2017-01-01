@@ -38,14 +38,24 @@ class SongbookManager extends Nette\Object
 	 * @return Songbook
 	 * @throws DuplicateNameException
 	 */
-	public function add($user_id, $title, $guid )
+	public function add($user_id, $title, $guid, $default )
 	{
 		try {
+			if ($default) {
+				$songbooks = $this->getUsersSongbooks($user_id);
+				foreach ($songbooks as $songbook) {
+					$songbooksID[] = $songbook->id;
+				}
+				$this->database->table(self::TABLE_NAME)->where(self::COLUMN_ID, $songbooksID)->update( [self::COLUMN_DEFAULT => 0] );
+			}
+
 			$songbook = $this->database->table(self::TABLE_NAME)->insert([
 				self::COLUMN_USER => $user_id,
 				self::COLUMN_TITLE => $title,
 				self::COLUMN_GUID => $guid,
+				self::COLUMN_DEFAULT=> $default,
 			]);
+
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}

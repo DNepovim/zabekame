@@ -40,10 +40,12 @@ class SongbookFormFactory
 		$form->addText('guid', 'Název v URL')
 		     ->setRequired('Prosím, zadej zázev pro URL.');
 
+		$form->addCheckbox('default', 'Hlavní zpěvník');
+
 		$form->addSubmit('send', 'Uložit zpěvník');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$songbook = $this->songbookManager->add($values->user, $values->title, $values->guid );
+			$songbook = $this->songbookManager->add($values->user, $values->title, $values->guid, $values->default );
 			$onSuccess($songbook->guid);
 		};
 
