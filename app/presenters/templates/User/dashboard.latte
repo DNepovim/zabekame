@@ -6,7 +6,7 @@
 <section class="thumb-list">
     <h2 class="title title-section">Zpěvníky</h2>
     <div class="songbook-thumb" n:foreach="$songbooks as $songbook">
-        <a class="songbook-thumb-edit" title="upravit zpěvník" n:href="Songbook:edit, $songbook->guid">
+        <a class="songbook-thumb-edit icon icon-edit" title="upravit zpěvník" n:href="Songbook:edit, $songbook->guid">
             {include '../components/shape.latte' name => 'pen'}
         </a>
         <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:detail, $songbook->guid">
@@ -15,7 +15,7 @@
     </div>
 
     <div class="songbook-thumb">
-        <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:others">
+        <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:others, $currentUser['username']">
             <span class="songbook-thumb-title">Ostatní</span>
         </a>
     </div>
