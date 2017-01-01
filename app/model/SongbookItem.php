@@ -30,6 +30,7 @@ class SongbookItem extends Nette\Object
 	/** @var Nette\Database\Context */
 	private $database;
 
+	public $id;
 	public $user;
 	public $title;
 	public $guid;
@@ -56,6 +57,7 @@ class SongbookItem extends Nette\Object
 
 		if ($songbook) {
 
+			$this->id = $songbook->id;
 			$this->user = $songbook->user;
 			$this->title = $songbook->title;
 			$this->guid = $songbook->guid;

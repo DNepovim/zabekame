@@ -7,7 +7,7 @@
     <ul>
         <li n:foreach="$songs as $song">
             <a n:href="Song:detail $song->guid">{$song->title}, {$song->interpreter}</a>
-            <a class="icon icon-edit" n:href="Song:edit $song->guid">{include '../components/shape.latte' name => 'pen'}</a>
+            <a class="icon icon-edit" n:href="Song:edit $song->guid, $id">{include '../components/shape.latte' name => 'pen'}</a>
         </li>
     </ul>
 </section>

@@ -37,6 +37,7 @@ class SongbookPresenter extends BasePresenter
 		$songsManager = new SongManager($this->database);
 
 		$this->template->title = $songbookItem->title;
+		$this->template->id = $songbookItem->id;
 		$this->template->songs = $songsManager->getSongsById($ids);
 	}
 

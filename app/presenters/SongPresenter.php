@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Model\SongbookItem;
 use App\Model\SongbookManager;
 use App\Model\SongItem;
 use App\Model\SongManager;
@@ -44,7 +45,7 @@ class SongPresenter extends BasePresenter
 	/**
 	 * Render edit
 	 */
-	public function renderEdit( $id )
+	public function renderEdit( $id, $songbook = null )
 	{
 		if (!$this->user->isLoggedIn()) {
 			$this->flashMessage('Nejdřív se musíš přihlásit.');
@@ -57,6 +58,14 @@ class SongPresenter extends BasePresenter
 		if ($song->user->id !== $this->user->id) {
 			$this->flashMessage('Píseň může editovat pouze vlastník');
 			$this->redirect('Song:detail', $id);
+		}
+
+
+		if (!empty($songbook)) {
+			$songbookItem = new SongbookItem($this->database);
+			$songbookItem->getSongbook($songbook);
+
+			$this->template->backToSongbook = $songbookItem;
 		}
 
 		$this->template->id = $this->id = $id;
