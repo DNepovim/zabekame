@@ -14,7 +14,7 @@
             {*<span class=error n:ifcontent>{$input->error}</span>*}
         </fieldset>
         <fieldset class="song-fieldset song-fieldset">
-            <label n:name=guid class="song-label song-url">https://zabeka.me/{$currentUser['username']|webalize}/</label>
+            <label n:name=guid for="songedit-guid" class="song-label song-url">https://zabeka.me/{$currentUser['username']|webalize}/</label>
             {input guid class => 'song-input song-text song-guid', id => 'songedit-guid'}
         </fieldset>
         <fieldset class="song-fieldset song-fieldset">

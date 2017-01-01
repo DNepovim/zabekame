@@ -25,6 +25,10 @@ class SongbookPresenter extends BasePresenter
 			$this->flashMessage('Nejdřív se musíš přihlásit.');
 			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
 		}
+
+		$guids = $this->getGuids();
+
+		$this->template->guids = $guids;
 	}
 
 	/**

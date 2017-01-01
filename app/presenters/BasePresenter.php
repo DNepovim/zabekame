@@ -3,6 +3,8 @@
 namespace App\Presenters;
 
 use Nette;
+use App\Model\SongManager;
+use App\Model\SongbookManager;
 
 
 /**
@@ -28,4 +30,31 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 
 	}
 
+	/**
+	 * Get list of related guids
+	 * @return array
+	 */
+	protected function getGuids($id=null)
+	{
+
+		$user = $this->getUser()->id;
+
+		$songManager = new SongManager($this->database);
+		$songbookManager = new SongbookManager($this->database);
+
+		$guids = array_merge($songManager->getListOfUserGuids($user), $songbookManager->getListOfUserGuids($user));
+		bdump($songbookManager->getListOfUserGuids($user));
+		bdump($guids);
+
+		if ($id) {
+			if (is_numeric($id)) {
+				$guid = $songManager->getGuidById($id);
+			} else {
+				$guid = $id;
+			}
+			$guids = array_diff($guids, array($guid));
+		}
+
+		return $guids;
+	}
 }

@@ -154,29 +154,5 @@ class SongPresenter extends BasePresenter
 
 	}
 
-	/**
-	 * Get list of related guids
-	 * @return array
-	 */
-	protected function getGuids($id=null)
-	{
-
-		$user = $this->getUser()->id;
-
-		$songManager = new SongManager($this->database);
-
-		$guids = $songManager->getListOfUserGuids($user);
-
-		if ($id) {
-			if (is_numeric($id)) {
-				$guid = $songManager->getGuidById($id);
-			} else {
-				$guid = $id;
-			}
-			$guids = array_diff($guids, array($guid));
-		}
-
-		return $guids;
-	}
 }
 

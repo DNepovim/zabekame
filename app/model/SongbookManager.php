@@ -77,4 +77,8 @@ class SongbookManager extends Nette\Object
 		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user)->order(self::COLUMN_ORDER)->fetchAll();
 	}
 
+	public function getListOfUserGuids($user)
+	{
+		return $this->database->table(self::TABLE_NAME )->where(self::COLUMN_USER, $user)->fetchPairs(self::COLUMN_ID, self::COLUMN_GUID);
+	}
 }
