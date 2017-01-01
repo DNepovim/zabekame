@@ -3,11 +3,13 @@
     <h1 n:block=title class="title title-song">{$title}</h1>
 </header>
 
+<a class="song-link button" n:href="User:dashboard"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na nástěnku</a>
+
 <section class="list">
     <ul>
         <li n:foreach="$songs as $song">
             <a n:href="Song:detail $song->guid">{$song->title}, {$song->interpreter}</a>
-            <a class="icon icon-edit" n:href="Song:edit $song->guid, $id">{include '../components/shape.latte' name => 'pen'}</a>
+            <a class="icon icon-edit" n:href="Song:edit $song->guid, $id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
         </li>
     </ul>
 </section>

@@ -1,8 +1,8 @@
 <div class="song-box">
     <form n:name=$form id="songedit">
-        {input send class => 'song-button song-link'}
-        <a class="song-link" n:href=":detail $id" n:if="!empty($id)">(zobrazit píseň)</a>
-        <a class="song-link" n:href="Songbook:detail $backToSongbook->guid" n:if="!empty($backToSongbook)">(zpět na zpěvník {$backToSongbook->title})</a>
+        <label class="song-link button" for="send"><i class="fa fa-floppy-o" aria-hidden="true"></i>uložit</label>
+        <a class="song-link button" n:href=":detail $id" n:if="!empty($id)"><i class="fa fa-eye" aria-hidden="true"></i>zobrazit píseň</a>
+        <a class="song-link button" n:href="Songbook:detail $backToSongbook->guid" n:if="!empty($backToSongbook)"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na zpěvník {$backToSongbook->title}</a>
         <fieldset class="song-fieldset">
             {input title class => 'song-input song-text song-title title title-main', id => 'songedit-title'}
             {*<span class=error n:ifcontent>{$input->error}</span>*}
@@ -21,7 +21,7 @@
             {input lyric class => 'song-input song-text song-lyric', id => 'song-editor'}
         </fieldset>
         <fieldset class="song-fieldset">
-            {input send class => 'song-button song-link'}
+            <label class="song-link button" for="send"><i class="fa fa-floppy-o" aria-hidden="true"></i>uložit</label>
         </fieldset>
     </form>
 </div>

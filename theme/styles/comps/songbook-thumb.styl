@@ -15,8 +15,22 @@
 
     &-edit
         position absolute
-        top 5px
-        right 5px
+        bottom 5px
+        right 5%
+        width 90%
+        font-size 0.8rem
+        color $c-text-light
+        text-align center
+        text-decoration none
+        border-radius 2px
+        transition color 300ms
+
+        .fa
+            margin 0 0.2em 0 0
+
+        &:hover
+            color $c-text
+            border $d-border $c-border solid
 
     &-link
         display flex
@@ -27,5 +41,5 @@
         text-decoration none
 
     &:hover
-        transform translateY(-10px)
+        transform translateY(-5px)
         box-shadow 2px 2px 1px $c-text-light
