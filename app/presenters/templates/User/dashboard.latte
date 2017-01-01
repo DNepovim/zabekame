@@ -6,13 +6,15 @@
     <i class="fa fa-pencil" aria-hidden="true"></i>upravit
 </a>
 
+
 <section class="thumb-list">
     <h2 class="title title-section">Zpěvníky</h2>
     <div class="songbook-thumb" n:foreach="$songbooks as $songbook">
         <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:detail, $songbook->guid">
-            <span class="songbook-thumb-title">{$songbook->title}</span>
+            <span class="songbook-thumb-title">{$songbook->title}<br></span>
+            <span class="songbook-thumb-default" n:if="$songbook->default">(hlavní)</span>
         </a>
-        <a class="songbook-thumb-edit" title="upravit zpěvník" n:href="Songbook:edit">
+        <a class="songbook-thumb-edit" title="upravit zpěvník" n:href="Songbook:edit $songbook->guid">
             <i class="fa fa-pencil" aria-hidden="true"></i>upravit
         </a>
     </div>
@@ -20,6 +22,12 @@
     <div class="songbook-thumb">
         <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:others, $currentUser['username']">
             <span class="songbook-thumb-title">Ostatní</span>
+        </a>
+    </div>
+
+    <div class="songbook-thumb">
+        <a class="songbook-thumb-link" title="přidat zpěvník" n:href="Songbook:add">
+            <i class="fa fa-plus songbook-thumb-add" aria-hidden="true"></i>
         </a>
     </div>
 </section>

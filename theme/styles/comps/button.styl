@@ -1,7 +1,8 @@
 .button
+    cursor pointer
     appearance none
     display inline-block
-    font-size 0.8rem
+    font-size $small-font-size
     background none
     color $c-text-light
     text-decoration none
@@ -9,10 +10,12 @@
     border-radius 2px
     margin 0 0.4em 0 0
     padding 0 1em
-    transition box-shadow 300ms
+    transition box-shadow 300ms, color 300ms, border-color 300ms
 
     .fa
         margin 0 0.3em 0 0
 
     &:hover
-        box-shadow 1px 1px 1px $c-border
+        color $c-text
+        border-color $c-text
+        box-shadow 1px 1px 1px $c-text-light
