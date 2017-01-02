@@ -13,12 +13,18 @@
             {input title class => 'song-input song-text song-title title title-main', id => 'songedit-title'}
             {*<span class=error n:ifcontent>{$input->error}</span>*}
         </fieldset>
-        <fieldset class="song-fieldset song-fieldset">
+        <fieldset class="song-fieldset">
             <label n:name=guid for="songedit-guid" class="song-label song-url">https://zabeka.me/{$currentUser['username']|webalize}/</label>
             {input guid class => 'song-input song-text song-guid', id => 'songedit-guid'}
         </fieldset>
-        <fieldset class="song-fieldset song-fieldset">
+        <fieldset class="song-fieldset">
             {input interpreter class => 'song-input song-text song-interpreter'}
+        </fieldset>
+        <fieldset class="song-fieldset">
+            <label  n:name="songbooks:$key" class="checkbox" n:foreach="$form[songbooks]->items as $key => $value">
+                <input type="checkbox" class="checkbox-input" n:name="songbooks:$key">
+                <span class="checkbox-label">{$value}</span>
+            </label>
         </fieldset>
         <ul class="errors" n:if="$form->hasErrors()">
             <li n:foreach="$form->errors as $error">{$error}</li>
