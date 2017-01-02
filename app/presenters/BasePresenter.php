@@ -43,8 +43,6 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$songbookManager = new SongbookManager($this->database);
 
 		$guids = array_merge($songManager->getListOfUserGuids($user), $songbookManager->getListOfUserGuids($user));
-		bdump($songbookManager->getListOfUserGuids($user));
-		bdump($guids);
 
 		if ($id) {
 			if (is_numeric($id)) {
