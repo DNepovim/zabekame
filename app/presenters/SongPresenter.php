@@ -34,23 +34,25 @@ class SongPresenter extends BasePresenter
 	/**
 	 * Render detail
 	 */
-	public function renderDetail( $id, $songbook = -1 )
+	public function renderDetail( $user, $songbook = '', $song )
 	{
+
 		$songItem = new SongItem($this->database);
-		$songItem->getSong($id);
-		$this->template->song = $songItem;
-		$this->template->editable = $songItem->user->id == $this->user->id;
 
-		if ($songbook == -1) {
-			$this->template->backToSongbook = false;
-		} else if ($songbook == 0) {
-			$this->template->backToSongbook = 'others';
+		if ($songItem->getSong($user, $song)) {
+			$this->template->song = $songItem;
+			$this->template->editable = $songItem->user->id == $this->user->id;
 		} else {
-			$songbookItem = new SongbookItem($this->database);
-			$songbookItem->getSongbook($songbook);
+			$this->flashMessage('Tato písnička neexistuje. Možná byla smazána, nebo přejmenována.');
+			$this->redirect('User:dashboard',$user);
+			exit;
+		};
 
-			$this->template->backToSongbook = $songbookItem;
-		}
+		$songbookItem = new SongbookItem($this->database);
+		$songbookItem->getSongbook($user,$songbook);
+		$songbookItem->getSongs();
+		$this->template->songbook = $songbookItem;
+
 	}
 
 	/**

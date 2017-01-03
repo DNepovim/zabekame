@@ -223,26 +223,41 @@ class SongManager extends Nette\Object
 	public function getOthersSongs($user)
 	{
 
-		$userManager = new UserManager($this->database);
-		$userID = $userManager->getIDByNick($user);
-
 		$songs = $this->database->table(self::TABLE_NAME )
 			->select(self::COLUMN_ID)
 			->select(self::COLUMN_TITLE)
 			->select(self::COLUMN_GUID)
 			->select(self::COLUMN_INTERPRETER)
-			->where(self::COLUMN_USER, $userID)->fetchAll();
+			->where(self::COLUMN_USER, $user)->fetchAll();
 
 		foreach ($songs as $song) {
 			$songsID[] = $song->id;
 		}
 
-		$relations = $this->database->table(self::RELATION_TABLE_NAME)->select(self::RELATION_SONG)->where(self::RELATION_SONG, $songsID)->fetchAll();
+		$relations = $this->database->table(self::RELATION_TABLE_NAME)->select(self::RELATION_SONG)->where(self::RELATION_SONG, $songs)->fetchAll();
 
 		foreach ($relations as $relation) {
 			unset($songs[$relation->zabe_songs_id]);
 		}
 
 		return $songs;
+	}
+
+	/**
+	 * Get list of all users songs
+	 * @param integer Songbook ID
+	 * @return array of song IDs
+	 */
+	public function getAllUsersSongs($userID)
+	{
+		$songs = $this->database->table(self::TABLE_NAME )
+								->select(self::COLUMN_ID)
+								->select(self::COLUMN_TITLE)
+								->select(self::COLUMN_GUID)
+								->select(self::COLUMN_INTERPRETER)
+								->where(self::COLUMN_USER, $userID)->fetchAll();
+
+		return $songs;
+
 	}
 }

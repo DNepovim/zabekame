@@ -50,13 +50,18 @@ class SongItem extends Nette\Object
 	 * @param  string  Song id or guid
 	 * @return string HTML text
 	 */
-	public function getSong($id)
+	public function getSong($user, $id)
 	{
-		if (is_numeric($id)) {
-			$song = $this->database->table( self::TABLE_NAME )->select('*')->get( $id );
-		} else {
-			$song = $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_GUID, $id)->fetch();
-		}
+
+		$userManager = new UserManager($this->database);
+		$userID = $userManager->getIDByNick($user);
+
+
+		$song = $this->database->table(self::TABLE_NAME )
+			->select('*')
+			->where(self::COLUMN_GUID, $id)
+			->where(self::COLUMN_USER, $userID)
+			->fetch();
 
 		if ($song) {
 

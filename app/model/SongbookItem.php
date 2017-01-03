@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Nette;
+use App\Model\UserManager;
 
 
 /**
@@ -27,6 +28,20 @@ class SongbookItem extends Nette\Object
 		RELATION_SONG = 'zabe_songs_id',
 		REALTION_ORDER = 'order';
 
+	const
+		SONGBOOK_OTHERS_ID = -2,
+		SONGBOOK_OTHERS_TITLE = 'Nezařazené',
+		SONGBOOK_OTHERS_GUID = 'nezarazene',
+		SONGBOOK_OTHERS_DEFAULT = 0,
+		SONGBOOK_OTHERS_ORDER = 9999;
+
+	const
+		SONGBOOK_ALL_ID = -1,
+		SONGBOOK_ALL_TITLE = 'Všechny písně',
+		SONGBOOK_ALL_GUID = 'vse',
+		SONGBOOK_ALL_DEFAULT = 0,
+		SONGBOOK_ALL_ORDER = 9998;
+
 	/** @var Nette\Database\Context */
 	private $database;
 
@@ -36,6 +51,7 @@ class SongbookItem extends Nette\Object
 	public $guid;
 	public $default;
 	public $order;
+	public $songs;
 
 
 	public function __construct(Nette\Database\Context $database)
@@ -48,27 +64,58 @@ class SongbookItem extends Nette\Object
 	 * @param  string  songbook id or guid
 	 * @return bool true on success
 	 */
-	public function getSongbook($id)
+	public function getSongbook($user, $songbook = '')
 	{
-		if (is_numeric($id)) {
-			$songbook = $this->database->table( self::TABLE_NAME )->select('*')->get( $id );
+		$userManager = new UserManager($this->database);
+		$userID = $userManager->getIDByNick($user);
+
+		if ($songbook == self::SONGBOOK_OTHERS_GUID) {
+
+			$this->id = self::SONGBOOK_OTHERS_ID;
+			$this->user = $userID;
+			$this->title = self::SONGBOOK_OTHERS_TITLE;
+			$this->guid = self::SONGBOOK_OTHERS_GUID;
+			$this->default = 0;
+			$this->order = 10000;
+
+		} else if ($songbookItem = $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_GUID, $songbook)->where(self::COLUMN_USER, $userID)->fetch()) {
+
+			$this->id = $songbookItem->id;
+			$this->user = $songbookItem->user;
+			$this->title = $songbookItem->title;
+			$this->guid = $songbookItem->guid;
+			$this->default = $songbookItem->default;
+			$this->order = $songbookItem->order;
+
 		} else {
-			$songbook = $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_GUID, $id)->fetch();
+			$this->id = self::SONGBOOK_ALL_ID;
+			$this->user = $userID;
+			$this->title = self::SONGBOOK_ALL_TITLE;
+			$this->guid = self::SONGBOOK_ALL_GUID;
+			$this->default = self::SONGBOOK_ALL_DEFAULT;
+			$this->order = self::SONGBOOK_ALL_ORDER;
 		}
+	}
 
-		if ($songbook) {
+	/**
+	 * Get songs of songbooks
+	 * @return array of songItems
+	 */
+	public function getSongs()
+	{
 
-			$this->id = $songbook->id;
-			$this->user = $songbook->user;
-			$this->title = $songbook->title;
-			$this->guid = $songbook->guid;
-			$this->default = $songbook->default;
-			$this->order = $songbook->order;
+		$songManager = new SongManager($this->database);
 
-			return true;
-
+		if ($this->id == -2) {
+			// load others songs
+			$this->songs = $songManager->getOthersSongs($this->user);
+		} else if ($this->id == -1) {
+			// load all songs
+			$this->songs = $songManager->getAllUsersSongs($this->user);
 		} else {
-			return false;
+			// load songs by songbook id
+			$relations = $this->getSongsIDFromSongbook($this->guid);
+			$this->songs = $songManager->getSongsById($relations);
 		}
 	}
 
@@ -97,4 +144,5 @@ class SongbookItem extends Nette\Object
 			return false;
 		}
 	}
+
 }

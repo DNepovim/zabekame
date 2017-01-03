@@ -2,9 +2,9 @@
 
 <article class="song-box">
     <header class="song-fieldset">
-        {if !empty($backToSongbook)}
-            {if $backToSongbook !== 'others'}
-                <a class="song-link button" n:href="Songbook:detail $backToSongbook->guid"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na zpěvník {$backToSongbook->title}</a>
+        {if !empty($songbook)}
+            {if $songbook !== 'others'}
+                <a class="song-link button" n:href="Songbook:detail $songbook->guid"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na zpěvník {$songbook->title}</a>
             {else}
                 <a class="song-link button" n:href="Songbook:others"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na ostatní</a>
             {/if}
