@@ -14,25 +14,17 @@
     transition box-shadow 300ms, transform 300ms, border-color 300ms
     float left
 
+    &-button
+        position absolute
+        left 5%
+        width 90%
+        text-align center
 
     &-edit
-        position absolute
-        bottom 5px
-        right 5%
-        width 90%
-        font-size 0.8rem
-        color $c-text-light
-        text-align center
-        text-decoration none
-        border-radius 2px
-        transition color 300ms
+        bottom 2rem
 
-        .fa
-            margin 0 0.2em 0 0
-
-        &:hover
-            color $c-text
-            border $d-border $c-border solid
+    &-remove
+        bottom 0.5em
 
     &-add
         font-size 30px

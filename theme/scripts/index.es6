@@ -17,7 +17,8 @@ if(DEBUG) console.time('Components initialization')
 var components = {
 	'shapes': require('./components/shapes'),
 	'guidprompt': require('./components/guidprompt'),
-	'guidcheck': require('./components/guidcheck')
+	'guidcheck': require('./components/guidcheck'),
+	'search': require('./components/search')
 }
 var instances = []
 

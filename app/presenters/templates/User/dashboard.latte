@@ -7,15 +7,18 @@
 <a class="button" title="přidat písničku" n:href="Song:add"><i class="fa fa-plus" aria-hidden="true"></i>Přidat písničku</a>
 
 
-<section class="thumb-list">
+<section class="section thumb-list">
     <h2 class="title title-section">Zpěvníky</h2>
     <div class="songbook-thumb" n:foreach="$songbooks as $songbook">
         <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:detail, $songbook->guid">
             <span class="songbook-thumb-title">{$songbook->title}<br></span>
             <span class="songbook-thumb-default" n:if="$songbook->default">(hlavní)</span>
         </a>
-        <a class="songbook-thumb-edit" title="upravit zpěvník" n:href="Songbook:edit $songbook->guid">
+        <a class="songbook-thumb-button songbook-thumb-edit button" title="upravit zpěvník" n:href="Songbook:edit $songbook->guid">
             <i class="fa fa-pencil" aria-hidden="true"></i>upravit
+        </a>
+        <a class="songbook-thumb-button songbook-thumb-remove button" title="smazat zpěvník" n:href="Songbook:remove $songbook->guid">
+            <i class="fa fa-times" aria-hidden="true"></i>smazat
         </a>
     </div>
 
@@ -31,3 +34,39 @@
         </a>
     </div>
 </section>
+
+<section class="section" id="search-place">
+    <h2 class="title title-section">Písničky</h2>
+
+    <form class="form search">
+        <input class="form-input search-input" placeholder="Hledat" type="search" id="search-input">
+        <i class="fa fa-search search-icon" aria-hidden="true"></i>
+        {*<input class="form-submit" type="submit">*}
+    </form>
+
+    <ul class="song-list" id="search-container">
+        <li class="song-list-item song-item search-target" n:foreach="$songs as $song">
+            <a class="song-list-link search-value" n:href="Song:detail $song->guid" title="detail písně">{$song->title}<i class="separator">/</i>{$song->interpreter}</a>
+            <a class="song-list-icon icon" title="upravit píseň" n:href="Song:edit $song->guid">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+            <a class="song-list-icon icon" title="smazat píseň" n:href="Song:remove $song->guid">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</section>
+<script>
+    initComponents = [
+        {
+            name: 'search',
+            place: '#search-place',
+            data: {
+                input: '#search-input',
+                container: '#search-container',
+                target: '.search-target',
+                value: '.search-value'
+            }
+        }
+    ]
+</script>

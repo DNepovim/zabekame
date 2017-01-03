@@ -56,6 +56,14 @@ class SongbookPresenter extends BasePresenter
 	}
 
 	/**
+	 * Action remove
+	 */
+	public function actionRemove($id)
+	{
+
+	}
+
+	/**
 	 * Render songbook detail
 	 */
 	public function renderDetail($id)

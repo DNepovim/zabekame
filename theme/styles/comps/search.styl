@@ -1,0 +1,14 @@
+.search
+    position relative
+    margin 0 0 1rem
+
+    &-input:focus + &-icon
+        color $c-text
+
+    &-icon
+        position absolute
+        top 50%
+        right 0.5rem
+        transform translateY(-50%)
+        color $c-text-light
+        transition color 300ms

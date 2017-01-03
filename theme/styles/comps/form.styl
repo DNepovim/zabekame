@@ -12,6 +12,12 @@
         display block
         width 100%
         margin 0
+        border $d-border $c-border solid
+        border-radius $d-radius
+        transition border-color 300ms
+
+        &:focus
+            border-color $c-text
 
     &-text
     &-textarea

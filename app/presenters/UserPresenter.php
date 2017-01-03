@@ -10,6 +10,14 @@ use App\Forms;
 
 class UserPresenter extends BasePresenter
 {
+	public function beforeRender() {
+		parent::beforeRender();
+
+		if (!$this->user->isLoggedIn()) {
+			$this->flashMessage('Nejdřív se musíš přihlásit.');
+			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
+		}
+	}
 
 	/**
 	 * Render default list */
@@ -17,6 +25,9 @@ class UserPresenter extends BasePresenter
 	{
 		$songbookManager = new SongbookManager($this->database);
 		$this->template->songbooks = $songbookManager->getUsersSongbooks($this->getUser()->id);
+
+		$songManager = new SongManager($this->database);
+		$this->template->songs = $songManager->getUsersSongs($this->getUser()->id);
 	}
 }
 

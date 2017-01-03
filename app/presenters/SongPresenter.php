@@ -106,6 +106,14 @@ class SongPresenter extends BasePresenter
 	}
 
 	/**
+	 * Remove song
+	 */
+	public function actionRemove($id)
+	{
+
+	}
+
+	/**
 	 * Song form factory.
 	 * @return Nette\Application\UI\Form
 	 */
