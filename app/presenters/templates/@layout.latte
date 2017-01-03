@@ -20,17 +20,15 @@
 
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-    <header class="main-header">
-
-    {if !empty($currentUser)}
-		<p>Jsi přihlášen jako {$currentUser['firstname']} {$currentUser['surname']} ({$currentUser['username']})</p>
-		<a n:href="Sign:out">Odhlásit</a>
-	{else}
-        <p>Nejsi přihlášen</p>
-		<a n:href="Sign:in">Přihlásit</a>
-    {/if}
-
-	</header>
+    <div class="navigation container">
+    	{if !empty($currentUser)}
+			<a class="link navigation-link" n:href="User:dashboard"><i class="fa fa-home" aria-hidden="true"></i>Domů</a>
+			<a class="link navigation-link" n:href="User:edit"><i class="fa fa-user" aria-hidden="true"></i>{$currentUser['username']}</a>
+			<a class="link navigation-link" n:href="Sign:out"><i class="fa fa-sign-out" aria-hidden="true"></i>Odhlásit</a>
+		{else}
+			<a class="link navigation-link" n:href="Sign:in"><i class="fa fa-sign-in" aria-hidden="true"></i>Přihlásit</a>
+    	{/if}
+	</div>
 
     <main class="container">
 
