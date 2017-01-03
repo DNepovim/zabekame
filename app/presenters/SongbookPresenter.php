@@ -58,7 +58,7 @@ class SongbookPresenter extends BasePresenter
 	/**
 	 * Action remove
 	 */
-	public function actionRemove($id)
+	public function actionRemove($songbook)
 	{
 
 	}
@@ -66,12 +66,12 @@ class SongbookPresenter extends BasePresenter
 	/**
 	 * Render songbook detail
 	 */
-	public function renderDetail($id)
+	public function renderDetail($songbook)
 	{
 		$songbookItem = new SongbookItem($this->database);
-		$songbookItem->getSongbook($id);
+		$songbookItem->getSongbook($songbook);
 
-		$ids = $songbookItem->getSongsIDFromSongbook($id);
+		$ids = $songbookItem->getSongsIDFromSongbook($songbook);
 
 		$songsManager = new SongManager($this->database);
 
