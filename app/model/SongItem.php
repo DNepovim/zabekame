@@ -47,19 +47,20 @@ class SongItem extends Nette\Object
 
 	/**
 	 * Get song data.
-	 * @param  string  Song id or guid
+	 * @param  string  Song guid
+	 * @param  string  Username
 	 * @return string HTML text
 	 */
-	public function getSong($user, $id)
+	public function getSong($username, $songGuid)
 	{
 
 		$userManager = new UserManager($this->database);
-		$userID = $userManager->getIDByNick($user);
+		$userID = $userManager->getIDByNick($username);
 
 
 		$song = $this->database->table(self::TABLE_NAME )
 			->select('*')
-			->where(self::COLUMN_GUID, $id)
+			->where(self::COLUMN_GUID, $songGuid)
 			->where(self::COLUMN_USER, $userID)
 			->fetch();
 

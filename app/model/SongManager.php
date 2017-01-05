@@ -207,12 +207,12 @@ class SongManager extends Nette\Object
 
 	/**
 	 * Get guid by id
-	 * @songbook string Songbook ID
+	 * @songbook string Song ID
 	 * @return array of songs
 	 */
-	public function getGuidById($id)
+	public function getGuidById($songID)
 	{
-		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_GUID)->get($id)->guid;
+		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_GUID)->get($songID)->guid;
 	}
 
 	/**

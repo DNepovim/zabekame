@@ -34,24 +34,15 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	 * Get list of related guids
 	 * @return array
 	 */
-	protected function getGuids($id=null)
+	protected function getGuids()
 	{
 
-		$user = $this->getUser()->id;
+		$userID = $this->getUser()->id;
 
 		$songManager = new SongManager($this->database);
 		$songbookManager = new SongbookManager($this->database);
 
-		$guids = array_merge($songManager->getListOfUserGuids($user), $songbookManager->getListOfUserGuids($user));
-
-		if ($id) {
-			if (is_numeric($id)) {
-				$guid = $songManager->getGuidById($id);
-			} else {
-				$guid = $id;
-			}
-			$guids = array_diff($guids, array($guid));
-		}
+		$guids = array_merge($songManager->getListOfUserGuids($userID), $songbookManager->getListOfUserGuids($userID));
 
 		return $guids;
 	}
