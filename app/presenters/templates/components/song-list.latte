@@ -1,3 +1,4 @@
+{default $editable = false}
 <div class="section" id="search-place">
     <form class="form search">
         <input class="form-input search-input" placeholder="Hledat" type="search" id="search-input">
@@ -6,12 +7,12 @@
     </form>
 
     <ul class="song-list" id="search-container">
-        <li class="song-list-item song-item search-target" n:foreach="$songs as $song">
-            <a class="song-list-link search-value" n:href="Song:detail $currentUser['username'], '',$song->guid" title="detail písně">{$song->title}<i class="separator">/</i>{$song->interpreter}</a>
-            <a class="song-list-icon icon" title="smazat píseň" n:href="Song:remove $song->guid">
+        <li class="song-list-item song-item search-target" n:foreach="$songs as $item">
+            <a class="song-list-link search-value" n:href="Song:detail $currentUser['username'], '',$item->guid" title="detail písně">{$item->title}<i class="separator">/</i>{$item->interpreter}</a>
+            <a class="song-list-icon icon" title="smazat píseň" n:href="Song:remove $item->guid" n:if="$editable">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </a>
-            <a class="song-list-icon icon" title="upravit píseň" n:href="Song:edit $song->guid">
+            <a class="song-list-icon icon" title="upravit píseň" n:href="Song:edit $item->guid" n:if="$editable">
                 <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
         </li>

@@ -17,3 +17,8 @@
         {$song->lyric|noescape}
     </div>
 </article>
+<aside class="song-index">
+    <h2 class="title title-section">{$songbook->title}</h2>
+
+    {include '../components/song-list.latte' songs => $songbook->songs, editable => false}
+</aside>
