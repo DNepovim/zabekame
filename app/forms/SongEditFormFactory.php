@@ -28,9 +28,8 @@ class SongEditFormFactory
 	/**
 	 * @return Form
 	 */
-	public function create(callable $onSuccess, $song, $songbooks)
+	public function create(callable $onSuccess, $song, $songbooksList)
 	{
-
 		$form = $this->factory->create();
 
 		$form->addHidden('id', $song->id);
@@ -55,16 +54,19 @@ class SongEditFormFactory
 			->setAttribute('tabindex', '-1')
 	        ->setRequired('Prosím, zadej zázev pro URL.');
 
-		foreach ($songbooks as $item) {
-			$options[$item->id] = $item->title;
+		if (!empty($songbooksList)) {
+			foreach ($songbooksList as $item) {
+				$options[$item->id] = $item->title;
+			}
+
+			if (!empty($song->songbooks)) {
+				$form->addCheckboxList('songbooks', 'Zpěvník', $options )
+				     ->setDefaultValue($song->songbooks);
+			} else {
+				$form->addCheckboxList('songbooks', 'Zpěvník', $options );
+			}
 		}
 
-		if (!empty($song->songbooks)) {
-			$form->addCheckboxList('songbooks', 'Zpěvník', $options )
-			     ->setDefaultValue($song->songbooks);
-		} else {
-			$form->addCheckboxList('songbooks', 'Zpěvník', $options );
-		}
 
 
 
