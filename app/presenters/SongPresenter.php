@@ -21,7 +21,9 @@ class SongPresenter extends BasePresenter
 	/** @var Forms\SongImportFormFactory @inject */
 	public $songImportFactory;
 
-	public $id;
+	public $song;
+	public $songbook;
+	public $songbooksList;
 
 	/**
 	 * Render default list */
@@ -57,39 +59,32 @@ class SongPresenter extends BasePresenter
 
 	/**
 	 * Render edit
+	 *
 	 */
-	public function renderEdit( $id, $songbook = -1 )
+	public function actionEdit( $username, $songbook = '', $songguid )
 	{
 		if (!$this->user->isLoggedIn()) {
 			$this->flashMessage('Nejdřív se musíš přihlásit.');
 			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
 		}
 
-		$song = new SongItem($this->database);
-		$song->getSong($id);
+		$songItem = new SongItem($this->database);
+		$songItem->getSong($username, $songguid);
 
-		if ($song->user->id !== $this->user->id) {
+		if ($songItem->user->id !== $this->user->id) {
 			$this->flashMessage('Píseň může editovat pouze vlastník');
 			$this->redirect('Song:detail', $id);
 		}
 
+		$songbookItem = new SongbookItem($this->database);
+		$songbookItem->getSongbook($songbook);
 
-		if ($songbook == -1) {
-			$this->template->backToSongbook = false;
-		} else if ($songbook == 0) {
-			$this->template->backToSongbook = 'others';
-		} else {
-			$songbookItem = new SongbookItem($this->database);
-			$songbookItem->getSongbook($songbook);
+		$songbookManager = new SongbookManager($this->database);
+		$this->songbooksList = $songbookManager->getUsersSongbooks($this->user->id);
 
-			$this->template->backToSongbook = $songbookItem;
-		}
-
-		$this->template->id = $this->id = $id;
-
-		$guids = $this->getGuids($id);
-
-		$this->template->guids = $guids;
+		$this->template->song = $this->song = $songItem;
+		$this->template->songbook = $this->songbook = $songbookItem;
+		$this->template->guids = $this->getGuids();
 	}
 
 	/**
@@ -137,17 +132,10 @@ class SongPresenter extends BasePresenter
 	 */
 	protected function createComponentSongEditForm()
 	{
-		$song = new SongItem($this->database);
-		$song->getSong($this->id);
-
-		$user = $this->getUser()->id;
-
-		$songbookManager = new SongbookManager($this->database);
-		$songbooksList = $songbookManager->getUsersSongbooks($user);
 
 		return $this->songEditFactory->create(function ($guid) {
 			$this->redirect('Song:edit', $guid);
-		}, $song, $songbooksList);
+		}, $this->song, $this->songbooksList);
 	}
 
 	/**
@@ -165,4 +153,3 @@ class SongPresenter extends BasePresenter
 	}
 
 }
-
