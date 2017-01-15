@@ -22,9 +22,9 @@
 
     <div class="navigation container">
     	{if !empty($currentUser)}
-			<a class="link navigation-link" n:href="User:dashboard"><i class="fa fa-home" aria-hidden="true"></i>Domů</a>
+			<a class="link navigation-link" n:href="User:dashboard, username => $currentUser['username']"><i class="fa fa-home" aria-hidden="true"></i>Domů</a>
             <i class="separator">/</i>
-			<a class="link navigation-link" n:href="User:edit"><i class="fa fa-user" aria-hidden="true"></i>{$currentUser['username']}</a>
+			<a class="link navigation-link" n:href="User:edit, username => $currentUser['username']"><i class="fa fa-user" aria-hidden="true"></i>{$currentUser['username']}</a>
 			<i class="separator">/</i>
 			<a class="link navigation-link" n:href="Sign:out"><i class="fa fa-sign-out" aria-hidden="true"></i>Odhlásit</a>
 		{else}

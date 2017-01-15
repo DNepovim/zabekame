@@ -6,6 +6,7 @@ use App\Model\SongbookItem;
 use App\Model\SongbookManager;
 use App\Model\SongItem;
 use App\Model\SongManager;
+use App\Model\UserManager;
 use Nette;
 use App\Forms;
 
@@ -36,22 +37,22 @@ class SongPresenter extends BasePresenter
 	/**
 	 * Render detail
 	 */
-	public function renderDetail( $user, $songbook = '', $song )
+	public function renderDetail( $username, $songbook = '', $songguid )
 	{
 
 		$songItem = new SongItem($this->database);
 
-		if ($songItem->getSong($user, $song)) {
+		if ($songItem->getSong($username, $songguid)) {
 			$this->template->song = $songItem;
-			$this->template->editable = $songItem->user->id == $this->user->id;
+			$this->template->editable = $songItem->userID == $this->user->id;
 		} else {
 			$this->flashMessage('Tato písnička neexistuje. Možná byla smazána, nebo přejmenována.');
-			$this->redirect('User:dashboard',$user);
+			$this->redirect('User:dashboard',$username);
 			exit;
 		};
 
 		$songbookItem = new SongbookItem($this->database);
-		$songbookItem->getSongbook($user,$songbook);
+		$songbookItem->getSongbook($username,$songbook);
 		$songbookItem->getSongs();
 		$this->template->songbook = $songbookItem;
 
@@ -63,21 +64,26 @@ class SongPresenter extends BasePresenter
 	 */
 	public function actionEdit( $username, $songbook = '', $songguid )
 	{
+
+		$i = 0;
 		if (!$this->user->isLoggedIn()) {
 			$this->flashMessage('Nejdřív se musíš přihlásit.');
 			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
 		}
 
+
 		$songItem = new SongItem($this->database);
 		$songItem->getSong($username, $songguid);
 
-		if ($songItem->user->id !== $this->user->id) {
+		if ($songItem->userID !== $this->user->getID()) {
+
+			$username = $songItem->username;
 			$this->flashMessage('Píseň může editovat pouze vlastník');
-			$this->redirect('Song:detail', $id);
+			$this->redirect('Song:detail', $username, $songguid);
 		}
 
 		$songbookItem = new SongbookItem($this->database);
-		$songbookItem->getSongbook($songbook);
+		$songbookItem->getSongbook($username, $songbook);
 
 		$songbookManager = new SongbookManager($this->database);
 		$this->songbooksList = $songbookManager->getUsersSongbooks($this->user->id);
@@ -85,10 +91,12 @@ class SongPresenter extends BasePresenter
 		$this->template->song = $this->song = $songItem;
 		$this->template->songbook = $this->songbook = $songbookItem;
 		$this->template->guids = $this->getGuids();
+
 	}
 
+
 	/**
-	 * Render edit
+	 * Render add
 	 */
 	public function renderAdd()
 	{
@@ -107,6 +115,8 @@ class SongPresenter extends BasePresenter
 	 */
 	public function actionRemove($id)
 	{
+		echo 'remove song';
+		exit;
 
 	}
 
@@ -116,13 +126,16 @@ class SongPresenter extends BasePresenter
 	 */
 	protected function createComponentSongForm()
 	{
-		$user = $this->getUser()->id;
-		$songbooks = new SongbookManager($this->database);
-		$songbooksList = $songbooks->getUsersSongbooks($user);
+		$userID = $this->getUser()->id;
+		$userManager = new UserManager($this->database);
+		$username = $userManager->getNickByID($userID);
 
-		return $this->songFactory->create(function ($guid) {
-			$this->redirect('Song:detail', $guid);
-		}, $user, $songbooksList);
+		$songbooks = new SongbookManager($this->database);
+		$songbooksList = $songbooks->getUsersSongbooks($userID);
+
+		return $this->songFactory->create(function ($username, $songguid) {
+			$this->redirect('Song:detail',['username' => $username, 'songguid' => $songguid]);
+		},$userID, $username, $songbooksList);
 	}
 
 	/**
@@ -132,9 +145,8 @@ class SongPresenter extends BasePresenter
 	 */
 	protected function createComponentSongEditForm()
 	{
-
-		return $this->songEditFactory->create(function ($guid) {
-			$this->redirect('Song:edit', $guid);
+		return $this->songEditFactory->create(function ($username,$songguid) {
+			$this->redirect('Song:detail',['username' => $username, 'songguid' => $songguid]);
 		}, $this->song, $this->songbooksList);
 	}
 

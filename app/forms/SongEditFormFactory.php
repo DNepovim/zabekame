@@ -33,6 +33,7 @@ class SongEditFormFactory
 		$form = $this->factory->create();
 
 		$form->addHidden('id', $song->id);
+		$form->addHidden('username', $song->username);
 
 		$form->addText('title', 'Název')
 			->setDefaultValue($song->title)
@@ -67,9 +68,6 @@ class SongEditFormFactory
 			}
 		}
 
-
-
-
 		$form->addTextarea('lyric', 'Text:')
 			->setDefaultValue($song->lyricSource)
 			->setAttribute('placeholder', 'Text písně')
@@ -79,7 +77,7 @@ class SongEditFormFactory
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
 			$this->songManager->edit( $values->id, $values->title, $values->guid, $values->interpreter, $values->lyric, $values->songbooks );
-			$onSuccess($values->guid);
+			$onSuccess($values->username, $values->guid);
 		};
 
 		return $form;

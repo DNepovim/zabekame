@@ -2,9 +2,9 @@
 <h1 class="title title-name" n:block=title>{$currentUser['firstname']} {$currentUser['surname']}
     ({$currentUser['username']})
 </h1>
-<a class="button" title="upravit uživatele" n:href="User:edit"><i class="fa fa-pencil" aria-hidden="true"></i>upravit uživatele</a>
-<a class="button" title="přidat zpěvník" n:href="Songbook:add"><i class="fa fa-plus" aria-hidden="true"></i>Přidat zpěvník</a>
-<a class="button" title="přidat písničku" n:href="Song:add"><i class="fa fa-plus" aria-hidden="true"></i>Přidat písničku</a>
+<a class="button" title="upravit uživatele" n:href="User:edit, username => $currentUser['username']"><i class="fa fa-pencil" aria-hidden="true"></i>upravit uživatele</a>
+<a class="button" title="přidat zpěvník" n:href="Songbook:add, username => $currentUser['username']"><i class="fa fa-plus" aria-hidden="true"></i>Přidat zpěvník</a>
+<a class="button" title="přidat písničku" n:href="Song:add, username => $currentUser['username']"><i class="fa fa-plus" aria-hidden="true"></i>Přidat písničku</a>
 
 
 <section class="section thumb-list">
@@ -29,7 +29,7 @@
     </div>
 
     <div class="songbook-thumb">
-        <a class="songbook-thumb-link" title="přidat zpěvník" n:href="Songbook:add">
+        <a class="songbook-thumb-link" title="přidat zpěvník" n:href="Songbook:add, username => $currentUser['username']">
             <i class="fa fa-plus songbook-thumb-add" aria-hidden="true"></i>
         </a>
     </div>

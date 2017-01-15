@@ -31,7 +31,8 @@ class SongItem extends Nette\Object
 	private $database;
 
 	public $id;
-	public $user;
+	public $userID;
+	public $username;
 	public $title;
 	public $guid;
 	public $interpreter;
@@ -67,7 +68,8 @@ class SongItem extends Nette\Object
 		if ($song) {
 
 			$this->id = $song->id;
-			$this->user = $song->user;
+			$this->userID = $song->user->id;
+			$this->username = $username;
 			$this->title = $song->title;
 			$this->guid = $song->guid;
 			$this->interpreter = $song->interpreter;

@@ -9,7 +9,7 @@
                 <a class="song-link button" n:href="Songbook:others"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na ostatní</a>
             {/if}
         {/if}
-        <a class="song-link button" n:href=":edit $song->guid" n:if="$editable"><i class="fa fa-pencil" aria-hidden="true"></i>upravit</a>
+        <a class="song-link button" n:href=":edit username =>$song->username, songguid => $song->guid" n:if="$editable"><i class="fa fa-pencil" aria-hidden="true"></i>upravit</a>
         <h1 class="song-input song-text song-title title title-main">{$song->title}</h1>
         <p class="song-input song-text song-interpreter">{$song->interpreter}</p>
     </header>

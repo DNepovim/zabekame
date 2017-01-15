@@ -49,11 +49,11 @@ class SongManager extends Nette\Object
 	 * @return void
 	 * @throws DuplicateNameException
 	 */
-	public function add($user_id, $title, $guid, $interpreter, $lyric, $songbooks = null)
+	public function add($userID, $title, $guid, $interpreter, $lyric, $songbooks = null)
 	{
 		try {
 			$song = $this->database->table(self::TABLE_NAME)->insert([
-				self::COLUMN_USER => $user_id,
+				self::COLUMN_USER => $userID,
 				self::COLUMN_TITLE => $title,
 				self::COLUMN_GUID => $guid,
 				self::COLUMN_INTERPRETER => $interpreter,

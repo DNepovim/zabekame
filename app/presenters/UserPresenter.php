@@ -21,7 +21,7 @@ class UserPresenter extends BasePresenter
 
 	/**
 	 * Render default list */
-	public function renderDashboard()
+	public function renderDashboard($username)
 	{
 		$songbookManager = new SongbookManager($this->database);
 		$this->template->songbooks = $songbookManager->getUsersSongbooks($this->getUser()->id);
@@ -29,5 +29,10 @@ class UserPresenter extends BasePresenter
 		$songManager = new SongManager($this->database);
 		$this->template->songs = $songManager->getUsersSongs($this->getUser()->id);
 	}
-}
 
+	public function renderEdit($username)
+	{
+		echo 'user edit';
+		exit;
+	}
+}

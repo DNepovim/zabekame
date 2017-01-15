@@ -53,8 +53,7 @@ class UserManager implements Nette\Security\IAuthenticator
 		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
 			$row->update([
 				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
-			]);
-		}
+			]); }
 
 		$arr = $row->toArray();
 		unset($arr[self::COLUMN_PASSWORD_HASH]);
@@ -85,11 +84,15 @@ class UserManager implements Nette\Security\IAuthenticator
 		}
 	}
 
-	public function getIDByNick($nickname)
+	public function getIDByNick($username)
 	{
-		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_ID)->where(self::COLUMN_NAME, $nickname)->fetchField(self::COLUMN_ID);
+		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_ID)->where(self::COLUMN_NAME, $username)->fetchField(self::COLUMN_ID);
 	}
 
+	public function getNickByID($userid)
+	{
+		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_NAME)->get($userid)->username;
+	}
 }
 
 

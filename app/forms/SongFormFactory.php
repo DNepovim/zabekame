@@ -28,11 +28,12 @@ class SongFormFactory
 	/**
 	 * @return Form
 	 */
-	public function create(callable $onSuccess, $user, $songbooks)
+	public function create(callable $onSuccess, $userID, $username, $songbooks)
 	{
 		$form = $this->factory->create();
 
-		$form->addHidden('user', $user);
+		$form->addHidden('userID', $userID);
+		$form->addHidden('username', $username);
 
 		$form->addText('title', 'Název')
 			->setAttribute('placeholder', 'Název')
@@ -64,8 +65,8 @@ class SongFormFactory
 		$form->addSubmit('send', '(uložit)');
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$song = $this->songManager->add($values->user, $values->title, $values->guid, $values->interpreter, $values->lyric, $values->songbooks );
-			$onSuccess($song->guid);
+			$song = $this->songManager->add($values->userID, $values->title, $values->guid, $values->interpreter, $values->lyric, $values->songbooks );
+			$onSuccess($values->username, $song->guid);
 		};
 
 		return $form;
