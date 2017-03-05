@@ -107,6 +107,15 @@ class SongManager extends Nette\Object
 		}
 	}
 
+	public function remove($userID, $guid)
+	{
+		$songID = $this->getIdByGuid($guid);
+		$this->database->table(self::RELATION_TABLE_NAME)->where(self::RELATION_SONG, $songID)->delete();
+
+		$this->database->table(self::TABLE_NAME)->where(self::COLUMN_USER, $userID)->where(self::COLUMN_GUID, $guid)->delete();
+
+	}
+
 
 	public function import( $user, $url, $source)
 	{
@@ -213,6 +222,16 @@ class SongManager extends Nette\Object
 	public function getGuidById($songID)
 	{
 		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_GUID)->get($songID)->guid;
+	}
+
+	/**
+	 * Get id by guid
+	 * @songbook string Song ID
+	 * @return array of songs
+	 */
+	public function getIdByGuid($guid)
+	{
+		return $this->database->table(self::TABLE_NAME )->select(self::COLUMN_ID)->where(self::COLUMN_GUID, $guid)->fetch()->id;
 	}
 
 	/**

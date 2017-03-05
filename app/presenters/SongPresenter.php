@@ -62,7 +62,7 @@ class SongPresenter extends BasePresenter
 	 * Render edit
 	 *
 	 */
-	public function actionEdit( $username, $songbook = '', $songguid )
+	public function actionEdit( $username, $songbook = '', $guid )
 	{
 
 		$i = 0;
@@ -71,16 +71,16 @@ class SongPresenter extends BasePresenter
 			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
 		}
 
-
 		$songItem = new SongItem($this->database);
-		$songItem->getSong($username, $songguid);
+		$songItem->getSong($username, $guid);
 
 		if ($songItem->userID !== $this->user->getID()) {
 
 			$username = $songItem->username;
 			$this->flashMessage('Píseň může editovat pouze vlastník');
-			$this->redirect('Song:detail', $username, $songguid);
+			$this->redirect('Song:detail', $username, $guid);
 		}
+
 
 		$songbookItem = new SongbookItem($this->database);
 		$songbookItem->getSongbook($username, $songbook);
@@ -113,10 +113,18 @@ class SongPresenter extends BasePresenter
 	/**
 	 * Remove song
 	 */
-	public function actionRemove($id)
+	public function actionRemove($guid)
 	{
-		echo 'remove song';
-		exit;
+		$songManager = new SongManager($this->database);
+
+		$userID = $this->getUser()->id;
+
+		$songManager->remove($userID, $guid);
+
+		$userManager = new UserManager($this->database);
+		$username = $userManager->getNickByID($userID);
+
+		$this->redirect('User:dashboard', $username);
 
 	}
 
