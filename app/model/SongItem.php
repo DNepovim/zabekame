@@ -86,6 +86,45 @@ class SongItem extends Nette\Object
 	}
 
 	/**
+	 * Get song data by id.
+	 * @param int Song id
+	 * @return bool
+	 */
+
+	public function getSongById($id)
+	{
+
+		$song = $this->database->table(self::TABLE_NAME )
+			->select('*')
+			->where(self::COLUMN_ID, $id)
+			->fetch();
+
+
+		if ($song) {
+
+			$userManager = new UserManager($this->database);
+			$username = $userManager->getNickByID($song->user->id);
+
+			$this->id = $song->id;
+			$this->userID = $song->user->id;
+			$this->username = $username;
+			$this->title = $song->title;
+			$this->guid = $song->guid;
+			$this->interpreter = $song->interpreter;
+			$this->lyric = $this->markupParser($song->lyric);
+			$this->lyricSource= $song->lyric;
+			$this->songbooks = $this->getUsedSongbooksIDs();
+
+			return true;
+
+		} else {
+			return false;
+		}
+
+
+	}
+
+	/**
 	 * Get list of used songbooks IDs.
 	 * @return array list of songbook ids.
 	 */
