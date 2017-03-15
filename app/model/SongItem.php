@@ -120,7 +120,7 @@ class SongItem extends Nette\Object
 
 		$pattern[] = '/<[v|s]>/';
 		$pattern[] = '/<(ch|r)>/';
-		$pattern[] = '/<([a-zA-Z1-9]*)>/';
+		$pattern[] = '/<([a-zA-Z1-9#]+[\/]?[a-zA-Z1-9#]*)>/';
 		$replacement[] = $verseTag;
 		$replacement[] = $chorusTag;
 		$replacement[] = $chordOpenTag . '$1' . $chordCloseTag;
