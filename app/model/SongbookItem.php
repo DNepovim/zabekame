@@ -120,6 +120,15 @@ class SongbookItem extends Nette\Object
 	}
 
 	/**
+	 * Get list of song IDs
+	 * @return array of song IDs
+	 */
+	public function getSongsID()
+	{
+		return $this->getSongsIDFromSongbook($this->id);
+	}
+
+	/**
 	 * Get list of song IDs related to songbook
 	 * @param integer Songbook ID
 	 * @return array of song IDs
