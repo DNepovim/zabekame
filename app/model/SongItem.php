@@ -50,7 +50,7 @@ class SongItem extends Nette\Object
 	 * Get song data.
 	 * @param  string  Song guid
 	 * @param  string  Username
-	 * @return string HTML text
+	 * @return string bool
 	 */
 	public function getSong($username, $songGuid)
 	{
