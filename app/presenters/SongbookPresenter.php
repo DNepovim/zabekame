@@ -89,8 +89,8 @@ class SongbookPresenter extends BasePresenter
 			$this->template->songs[] = $song;
 		}
 
-		$this->template->title = $songbookItem->title;
-		$this->template->guid = $songbookItem->guid;
+		$this->template->songbook = $songbookItem;
+		$this->template->username = $username;
 	}
 
 	/**
