@@ -20,7 +20,10 @@ class RouterFactory
 
 		$router[] = new Route('sign/<action>', 'Sign:');
 		$router[] = new Route('song/import', 'Song:import');
-		$router[] = new Route('<username>/<guid>/edit', 'Song:edit');
+		$router[] = new Route('songbook/export', 'Songbook:export');
+		$router[] = new Route('<username>/zpevnik/<songbook>', 'Songbook:detail');
+		$router[] = new Route('<username>/zpevnik/<songbook>/upravit', 'Songbook:edit');
+		$router[] = new Route('<username>/<guid>/upravit', 'Song:edit');
 		$router[] = new Route('<username>/<guid>/odstranit', 'Song:remove');
 		$router[] = new Route('<username>/pridatzpevnik', 'Songbook:add');
 		$router[] = new Route('<username>/pridatpisen', 'Song:add');
