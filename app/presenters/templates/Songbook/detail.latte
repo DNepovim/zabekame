@@ -1,3 +1,4 @@
+{default $editable = false}
 {block head}
     {include #parent}
     <link rel="stylesheet" href="{$basePath}/files/{$username}/{$songbook->stylesheet}" n:if="!empty($songbook->stylesheet)">
@@ -5,10 +6,6 @@
 
 {/block}
 {block content}
-<a class="song-link button" n:href="User:dashboard"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na nástěnku</a>
-<a class="song-link button" n:href=":edit $id" n:if="$id"><i class="fa fa-pencil" aria-hidden="true"></i>upravit zpěvník</a>
-
-<h1 class="title title-main section-title" n:if="!empty($title)">{$title}</h1>
-
-
-{include '../components/song-list.latte' songs => $songs, title => $title}
+{foreach $songs as $song}
+	{include '../Song/detail.latte' song => $song, songs => $songs, username => $username}
+{/foreach}
