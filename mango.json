@@ -2,8 +2,7 @@
   "src_folder": "theme",
   "dist_folder": "public/assets",
   "styles": [
-    "theme/styles/admin.styl",
-    "theme/styles/public.styl",
+    "theme/styles/index.styl",
     "theme/styles/print.styl"
   ],
   "scripts": [
