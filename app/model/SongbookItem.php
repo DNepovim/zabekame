@@ -64,10 +64,11 @@ class SongbookItem extends Nette\Object
 	 * @param  string  songbook id or guid
 	 * @return bool true on success
 	 */
-	public function getSongbook($user, $songbook = '')
+	public function getSongbook($username, $songbook = '')
 	{
+
 		$userManager = new UserManager($this->database);
-		$userID = $userManager->getIDByNick($user);
+		$userID = $userManager->getIDByNick($username);
 
 		if ($songbook == self::SONGBOOK_OTHERS_GUID) {
 
