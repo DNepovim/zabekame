@@ -20,7 +20,9 @@ class SongbookItem extends Nette\Object
 		COLUMN_ORDER = 'order',
 		COLUMN_DEFAULT = 'default',
 		COLUMN_TITLE = 'title',
-		COLUMN_GUID = 'guid';
+		COLUMN_GUID = 'guid',
+		COLUMN_STYLESHEET = 'stylesheet',
+		COLUMN_FONTS = 'fonts';
 
 	const
 		RELATION_TABLE_NAME = 'zabe_song_songbook_relations',
@@ -52,6 +54,8 @@ class SongbookItem extends Nette\Object
 	public $default;
 	public $order;
 	public $songs;
+	public $stylesheet;
+	public $fonts;
 
 
 	public function __construct(Nette\Database\Context $database)
@@ -78,6 +82,8 @@ class SongbookItem extends Nette\Object
 			$this->guid = self::SONGBOOK_OTHERS_GUID;
 			$this->default = 0;
 			$this->order = 10000;
+			$this->stylesheet = null;
+			$this->fonts = null;
 
 		} else if ($songbookItem = $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_GUID, $songbook)->where(self::COLUMN_USER, $userID)->fetch()) {
 
@@ -87,6 +93,8 @@ class SongbookItem extends Nette\Object
 			$this->guid = $songbookItem->guid;
 			$this->default = $songbookItem->default;
 			$this->order = $songbookItem->order;
+			$this->stylesheet = $songbookItem->stylesheet;
+			$this->fonts = $songbookItem->fonts;
 
 		} else {
 			$this->id = self::SONGBOOK_ALL_ID;
@@ -95,6 +103,8 @@ class SongbookItem extends Nette\Object
 			$this->guid = self::SONGBOOK_ALL_GUID;
 			$this->default = self::SONGBOOK_ALL_DEFAULT;
 			$this->order = self::SONGBOOK_ALL_ORDER;
+			$this->stylesheet = null;
+			$this->fonts = null;
 		}
 	}
 
