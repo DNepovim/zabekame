@@ -1,3 +1,9 @@
+{block head}
+    {include #parent}
+    <link rel="stylesheet" href="{$basePath}/files/{$username}/{$songbook->stylesheet}" n:if="!empty($songbook->stylesheet)">
+    <link href="https://fonts.googleapis.com/css?family={$songbook->fonts}" rel="stylesheet" n:if="!empty($songbook->fonts)">
+
+{/block}
 {block content}
 <a class="song-link button" n:href="User:dashboard"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na nástěnku</a>
 <a class="song-link button" n:href=":edit $id" n:if="$id"><i class="fa fa-pencil" aria-hidden="true"></i>upravit zpěvník</a>
