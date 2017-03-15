@@ -11,7 +11,11 @@ class HomepagePresenter extends BasePresenter
 
 	public function renderDefault()
 	{
-		$this->template->anyVariable = 'any value';
+		if ($this->getUser()->isLoggedIn()) {
+			$this->redirect('User:dashboard');
+		} else {
+			$this->redirect('Sign:in');
+		}
 	}
 
 }

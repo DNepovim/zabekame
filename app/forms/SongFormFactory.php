@@ -56,7 +56,8 @@ class SongFormFactory
 			$options[$item->id] = $item->title;
 		}
 
-		$form->addCheckboxList('songbooks', 'Zpěvník', $options );
+		$form->addCheckboxList('songbooks', 'Zpěvník', $options )
+			->setDefaultValue('1');
 
 		$form->addTextarea('lyric', 'Text:')
 			->setAttribute('placeholder', 'Text písně')

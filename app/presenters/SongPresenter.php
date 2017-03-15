@@ -39,6 +39,8 @@ class SongPresenter extends BasePresenter
 	 */
 	public function renderDetail( $username, $songbook = '', $songguid )
 	{
+		$this->redirect('Songbook:detail',['username' => $username, 'songbook' => $songbook, 'songguid' => $songguid]);
+
 
 		$songItem = new SongItem($this->database);
 

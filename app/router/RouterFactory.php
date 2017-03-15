@@ -18,10 +18,12 @@ class RouterFactory
 	{
 		$router = new RouteList;
 
+		$router[] = new Route('', 'Homepage:default');
+		$router[] = new Route('<username>', 'Songbook:detail');
 		$router[] = new Route('sign/<action>', 'Sign:');
 		$router[] = new Route('song/import', 'Song:import');
 		$router[] = new Route('songbook/export', 'Songbook:export');
-		$router[] = new Route('<username>/zpevnik/<songbook>', 'Songbook:detail');
+		$router[] = new Route('<username>/zpevnik[/<songbook>]', 'Songbook:detail');
 		$router[] = new Route('<username>/zpevnik/<songbook>/upravit', 'Songbook:edit');
 		$router[] = new Route('<username>/<guid>/upravit', 'Song:edit');
 		$router[] = new Route('<username>/<guid>/odstranit', 'Song:remove');

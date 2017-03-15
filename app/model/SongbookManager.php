@@ -106,8 +106,23 @@ class SongbookManager extends Nette\Object
 		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_USER, $user)->order(self::COLUMN_ORDER)->fetchAll();
 	}
 
+	/**
+	 * Get list of user's guids.
+	 * @param  string Users ID
+	 * @return array list of guids
+	 */
 	public function getListOfUserGuids($user)
 	{
 		return $this->database->table(self::TABLE_NAME )->where(self::COLUMN_USER, $user)->fetchPairs(self::COLUMN_ID, self::COLUMN_GUID);
+	}
+
+	/**
+	 * Get default user's default songbook.
+	 * @param  string Username
+	 * @return guid
+	 */
+	public function getDefaultSongbook($username)
+	{
+		return $this->database->table(self::TABLE_NAME )->where('zabe_users.username', $username)->where(self::COLUMN_DEFAULT, 1)->fetchPairs(self::COLUMN_ID, self::COLUMN_GUID);
 	}
 }

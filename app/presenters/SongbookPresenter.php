@@ -6,6 +6,7 @@ use App\Model\SongbookManager;
 use App\Model\SongbookItem;
 use App\Model\SongManager;
 use App\Model\SongItem;
+use App\Model\UserManager;
 use Nette;
 use App\Forms;
 use \Joseki\Application\Responses\PdfResponse;
@@ -67,19 +68,24 @@ class SongbookPresenter extends BasePresenter
 	/**
 	 * Render songbook detail
 	 */
-	public function renderDetail($username, $songbook)
+	public function renderDetail($username, $songbook = null)
 	{
+
+		$userMnanger = new UserManager($this->database);
+		if ($userMnanger->existUsername($username)) {
+
+		if (!$songbook) {
+			$songbookManager = new SongbookManager($this->database);
+			$songbook = $songbookManager->getDefaultSongbook($username);
+		}
+
 		$songbookItem = new SongbookItem($this->database);
 		$songbookItem->getSongbook($username,$songbook);
 
 		$ids = $songbookItem->getSongsID();
 
-		bdump($songbookItem);
-		bdump($username);
-		bdump($songbook);
-		bdump($ids);
-
 		$songsManager = new SongManager($this->database);
+
 
 		$this->template->songs = [];
 
@@ -91,6 +97,11 @@ class SongbookPresenter extends BasePresenter
 
 		$this->template->songbook = $songbookItem;
 		$this->template->username = $username;
+
+		} else {
+			$this->flashMessage('Uživatel ' . $username . ' neexistuje.');
+			$this->redirect('Homepage:default');
+		}
 	}
 
 	/**
@@ -138,7 +149,8 @@ class SongbookPresenter extends BasePresenter
 		$user = $this->getUser()->id;
 
 		return $this->songbookFactory->create(function ($guid) {
-			$this->redirect('Songbook:detail', $guid);
+			// $this->redirect('Songbook:detail', $guid);
+			$this->redirect('Homepage:default');
 		}, $user);
 	}
 
