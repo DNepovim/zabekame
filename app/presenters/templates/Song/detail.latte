@@ -4,7 +4,7 @@
     <header class="song-fieldset">
         {if !empty($songbook)}
             {if $songbook !== 'others'}
-                <a class="song-link button" n:href="Songbook:detail $songbook->guid"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na zpěvník {$songbook->title}</a>
+                {* <a class="song-link button" n:href="Songbook:detail $songbook->guid"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na zpěvník {$songbook->title}</a> *}
             {else}
                 <a class="song-link button" n:href="Songbook:others"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na ostatní</a>
             {/if}
@@ -18,8 +18,8 @@
         {$song->lyric|noescape}
     </div>
 </article>
-<aside class="song-index">
+<aside class="song-index" n:if="!empty($songbook)">
     <h2 class="title title-section">{$songbook->title}</h2>
 
-    {include '../components/song-list.latte' songs => $songbook->songs, editable => false}
+    {include '../components/song-list.latte' songs => $songs, username => $username, editable => false}
 </aside>
