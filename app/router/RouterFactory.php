@@ -19,10 +19,10 @@ class RouterFactory
 		$router = new RouteList;
 
 		$router[] = new Route('', 'Homepage:default');
+		$router[] = new Route('/nastenka', 'User:dashboard');
 		$router[] = new Route('<username>', 'Songbook:detail');
 		$router[] = new Route('sign/<action>', 'Sign:');
 		$router[] = new Route('song/import', 'Song:import');
-		$router[] = new Route('songbook/export', 'Songbook:export');
 		$router[] = new Route('<username>/zpevnik[/<songbook>]', 'Songbook:detail');
 		$router[] = new Route('<username>/zpevnik/<songbook>/upravit', 'Songbook:edit');
 		$router[] = new Route('<username>/<guid>/upravit', 'Song:edit');
@@ -30,7 +30,6 @@ class RouterFactory
 		$router[] = new Route('<username>/pridatzpevnik', 'Songbook:add');
 		$router[] = new Route('<username>/pridatpisen', 'Song:add');
 		$router[] = new Route('<username>[/<songbook>]/<songguid>', 'Song:detail');
-		$router[] = new Route('<username>', 'User:dashboard');
 //		$router[] = new Route('<user>/<songbook>/<song>', 'Song:detail');
 //		$router[] = new Route('song/add', 'Song:add');
 //		$router[] = new Route('song/import', 'Song:import');
