@@ -152,8 +152,8 @@ class SongItem extends Nette\Object
 		$verseCloseTag = '</span>';
 		$verseTag = $verseOpenTag . $verseCloseTag;
 		$chorusTag = '<span class="chord-chorus">R:</span>';
-		$chordOpenTag = '<span class="chord">';
-		$chordCloseTag = '</span>';
+		$chordOpenTag = '<span class="chord"><span>';
+		$chordCloseTag = '</span></span>';
 		$chordLineOpenTag = '<div class="chord-line">';
 		$chordLineCloseTag = '</div>';
 
