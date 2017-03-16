@@ -18,6 +18,7 @@ var components = {
 	'shapes': require('./components/shapes'),
 	'guidprompt': require('./components/guidprompt'),
 	'guidcheck': require('./components/guidcheck'),
+	'chords': require('./components/chords'),
 	'search': require('./components/search')
 }
 var instances = []

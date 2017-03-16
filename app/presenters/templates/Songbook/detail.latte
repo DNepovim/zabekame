@@ -9,3 +9,10 @@
 {foreach $songs as $song}
 	{include '../Song/detail.latte' song => $song, songs => $songs, username => $username}
 {/foreach}
+
+<script>
+    initComponents = [{
+            name: 'chords',
+            place: '.container'
+        }]
+</script>
