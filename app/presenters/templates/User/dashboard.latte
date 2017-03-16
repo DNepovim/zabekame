@@ -10,11 +10,11 @@
 <section class="section thumb-list">
     <h2 class="title title-section">Zpěvníky</h2>
     <div class="songbook-thumb" n:foreach="$songbooks as $songbook">
-        <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:detail, $songbook->guid">
+        <a class="songbook-thumb-link" title="detail zpěvníku" n:href="Songbook:detail username => $username, songbook => $songbook->guid">
             <span class="songbook-thumb-title">{$songbook->title}<br></span>
             <span class="songbook-thumb-default" n:if="$songbook->default">(hlavní)</span>
         </a>
-        <a class="songbook-thumb-button songbook-thumb-edit button" title="upravit zpěvník" n:href="Songbook:edit $songbook->guid">
+        <a class="songbook-thumb-button songbook-thumb-edit button" title="upravit zpěvník" n:href="Songbook:edit username => $username, songbook => $songbook->guid">
             <i class="fa fa-pencil" aria-hidden="true"></i>upravit
         </a>
         <a class="songbook-thumb-button songbook-thumb-remove button" title="smazat zpěvník" n:href="Songbook:remove $songbook->guid">
