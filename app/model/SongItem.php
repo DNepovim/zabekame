@@ -171,22 +171,31 @@ class SongItem extends Nette\Object
 		$verse = 0;
 		foreach ($line_list as $line) {
 
+			// Remove all '<br />' tags
 			$line_list[$i] = str_replace('<br />', '', $line_list[$i]);
 
+			// Check if is some chords in line
 			if (strpos($line_list[$i], $chordOpenTag)) {
+				// Wrap line with chords
 				$line_list[$i] = $chordLineOpenTag . $line_list[$i] . $chordLineCloseTag;
 			} elseif (!empty(trim($line_list[$i]))&&!strpos($verseCloseTag, trim($line_list[$i]))&&!strpos($verseOpenTag, trim($line_list[$i]))&&!strpos($chorusTag, trim($line_list[$i]))) {
+				// Break line without chords
 				$line_list[$i] .= '<br>';
 			}
 
+			// Process verse tag
 			if (strpos($line_list[$i], $verseTag)) {
 				$line_list[$i] = str_replace($verseTag, $verseOpenTag . ++$verse . '.' . $verseCloseTag, $line_list[$i]);
 			}
 
+			// Process chorus tag
 			if (strpos($line_list[$i], $chorusTag)) {
+				// Check if is on line only chorus tag
 				if (trim($line_list[$i]) !== $chorusTag . '<br>') {
+					// Save first line of chorus
 					$chorusLine = $line_list[$i];
 				} else {
+					// Add first line of chorus
 					if (!empty($chorusLine)) {
 						$line_list[$i] = preg_replace('/' . $chordOpenTag . '([a-zA-Z1-9]*)<\/>/', '', $chorusLine);
 						$line_list[$i] = $chorusTag . substr(trim(strip_tags($line_list[$i])), 2) . '&hellip;<br>';
@@ -197,6 +206,7 @@ class SongItem extends Nette\Object
 			$i++;
 		}
 
+		// Implode lines to one string
 		$lyric = implode($line_list);
 
 		return $lyric;
