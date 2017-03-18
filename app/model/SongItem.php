@@ -194,11 +194,12 @@ class SongItem extends Nette\Object
 				if (trim($line_list[$i]) !== $chorusTag . '<br>') {
 					// Save first line of chorus
 					$chorusLine = $line_list[$i];
+					$chorusLine = preg_replace('#' . addcslashes($chordOpenTag, '<>/"') . '([a-zA-Z1-9]*)' . addcslashes($chordCloseTag, '<>/"') . '#', '', $chorusLine);
+					$chorusLine = rtrim(rtrim($chorusLine, '</div>'), ',') . '&hellip;</div>';
 				} else {
 					// Add first line of chorus
 					if (!empty($chorusLine)) {
-						$line_list[$i] = preg_replace('/' . $chordOpenTag . '([a-zA-Z1-9]*)<\/>/', '', $chorusLine);
-						$line_list[$i] = $chorusTag . substr(trim(strip_tags($line_list[$i])), 2) . '&hellip;<br>';
+						$line_list[$i] = $chorusLine;
 					}
 				}
 			}
