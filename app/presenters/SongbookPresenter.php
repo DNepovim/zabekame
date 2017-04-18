@@ -9,7 +9,6 @@ use App\Model\SongItem;
 use App\Model\UserManager;
 use Nette;
 use App\Forms;
-use \Joseki\Application\Responses\PdfResponse;
 
 
 
@@ -116,28 +115,6 @@ class SongbookPresenter extends BasePresenter
 		$this->template->id = false;
 		$this->setView('detail');
 
-	}
-
-	/**
-	* Export songbook to PDF
-	*
-	*/
-	public function actionExport() {
-		$song = new SongItem($this->database);
-		$song->getSong('Nik', 'sarajevo');
-
-		$template = $this->createTemplate();
-		$template->editable = false;
-		$template->song = $song;
-		$template->setFile(__DIR__ . '/templates/Song/detail.latte');
-
-		$pdf = new PdfResponse($template);
-		$pdf->setDocumentAuthor('zabeka.me');
-		$pdf->setDocumentTitle($song->title);
-		$pdf->pageFormat = 'A5-P';
-		$pdf->setSaveMode(PdfResponse::INLINE);
-		// $pdf->getMPDF()->WriteHTML($stylesheet,1);
-		$this->sendResponse($pdf);
 	}
 
 	/**
