@@ -2,6 +2,8 @@
 // Main project bundle
 //
 
+window.global = window
+
 // Dependencies
 //
 require('./plugins')
@@ -19,7 +21,8 @@ var components = {
 	'guidprompt': require('./components/guidprompt'),
 	'guidcheck': require('./components/guidcheck'),
 	'chords': require('./components/chords'),
-	'search': require('./components/search')
+	'search': require('./components/search'),
+	'songeditor': require('./components/songeditor')
 }
 var instances = []
 

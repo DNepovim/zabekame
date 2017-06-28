@@ -29,7 +29,7 @@
         <ul class="errors" n:if="$form->hasErrors()">
             <li n:foreach="$form->errors as $error">{$error}</li>
         </ul>
-        <fieldset class="song-fieldset">
+        <fieldset class="song-fieldset" id="song-editor-container">
             {input lyric class => 'song-input song-text song-lyric', id => 'song-editor'}
         </fieldset>
         <fieldset class="song-fieldset">

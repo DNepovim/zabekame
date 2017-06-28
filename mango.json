@@ -16,7 +16,11 @@
   ],
   "dependencies": [
     "jquery",
-    "lt-ie-9"
+    "lt-ie-9",
+    "react",
+    "react-dom",
+    "draft-js",
+    "draft-js-plugins-editor"
   ],
   "watch": [
     "theme/**/*.{styl}",
