@@ -20,7 +20,8 @@
     "react",
     "react-dom",
     "draft-js",
-    "draft-js-plugins-editor"
+    "draft-js-plugins-editor",
+    "draft-js-mention-plugin"
   ],
   "watch": [
     "theme/**/*.{styl}",

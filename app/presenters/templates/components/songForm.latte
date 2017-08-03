@@ -39,9 +39,16 @@
     </form>
 </div>
 
+<script>
+    initComponents.push({
+        name: 'songeditor',
+        place: '#song-editor-container'
+    })
+</script>
+
 {if $state == 'add' ||  !empty($guids)}
 <script>
-    initComponents = [
+    initComponents.push(
         {if $state == 'add'}
         {
             name: 'guidprompt',
@@ -62,6 +69,6 @@
             }
         },
         {/if}
-    ]
+    )
 </script>
 {/if}

@@ -1,16 +1,17 @@
 import createReactComponent from './createReactComponent';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {Editor, EditorState} from 'draft-js';
+import React, { Component } from 'react';
 
 class SongEditor extends React.Component {
-  state = {editorState: EditorState.createEmpty()}
-  onChange = (editorState) => this.setState({editorState})
 
+  handleKeyPress = (event) => {
+    console.log(event)
+  }
   render() {
     return (
-      <Editor editorState={this.state.editorState} onChange={this.onChange} />
-    )
+      <div>
+        <textarea className="song-input song-text song-lyric" onKeyPress={this.handleKeyPress}></textarea>
+      </div>
+    );
   }
 }
 
