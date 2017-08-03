@@ -15,6 +15,6 @@
         <p class="song-input song-text song-interpreter">{$song->interpreter}</p>
     </header>
     <div class="song-fieldset song-lyric">
-        {$song->lyric|noescape}
+        {$song->getLyricInHtml()|noescape}
     </div>
 </article>

@@ -69,7 +69,7 @@ class SongEditFormFactory
 		}
 
 		$form->addTextarea('lyric', 'Text:')
-			->setDefaultValue($song->lyricSource)
+			->setDefaultValue($song->lyric)
 			->setAttribute('placeholder', 'Text písně')
 			->setRequired('Prosím, vlož text.');
 
