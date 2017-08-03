@@ -21,6 +21,13 @@
 	{block head}{/block}
 </head>
 <body class="{$presenter->request->getParameter('action')|webalize} {$presenter->request->getPresenterName()|webalize}">
+
+	<script>
+		initComponents = [
+			{ name: 'shapes', data: { url: 'assets/sprites/shapes.svg' } }
+		]
+	</script>
+
 	{include ../../../.mango-snippet.html}
 
 	<script n:syntax="off">
