@@ -73,29 +73,30 @@ class SongbookPresenter extends BasePresenter
 		$userMnanger = new UserManager($this->database);
 		if ($userMnanger->existUsername($username)) {
 
-		if (!$songbook) {
-			$songbookManager = new SongbookManager($this->database);
-			$songbook = $songbookManager->getDefaultSongbook($username);
-		}
+			if (!$songbook) {
+				$songbookManager = new SongbookManager($this->database);
+				$songbook = $songbookManager->getDefaultSongbook($username);
+			}
 
-		$songbookItem = new SongbookItem($this->database);
-		$songbookItem->getSongbook($username,$songbook);
+			$songbookItem = new SongbookItem($this->database);
+			$songbookItem->getSongbook($username,$songbook);
 
-		$ids = $songbookItem->getSongsID();
+			$ids = $songbookItem->getSongsID();
 
-		$songsManager = new SongManager($this->database);
+			$songsManager = new SongManager($this->database);
 
 
-		$this->template->songs = [];
+			$this->template->songs = [];
 
-		foreach ($ids as $id) {
-			$song = new SongItem($this->database);
-			$song->getSongById($id);
-			$this->template->songs[] = $song;
-		}
+			foreach ($ids as $id) {
+				$song = new SongItem($this->database);
+				$song->getSongById($id);
+				$this->template->songs[] = $song;
+			}
 
-		$this->template->songbook = $songbookItem;
-		$this->template->username = $username;
+			$this->template->songbook = $songbookItem;
+			$this->template->username = $username;
+
 			$this->setView($view);
 
 		} else {
