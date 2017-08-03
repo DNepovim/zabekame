@@ -67,7 +67,7 @@ class SongbookPresenter extends BasePresenter
 	/**
 	 * Render songbook detail
 	 */
-	public function renderDetail($username, $songbook = null)
+	public function renderDetail($username, $songbook = null, $view = 'detail')
 	{
 
 		$userMnanger = new UserManager($this->database);
@@ -96,6 +96,7 @@ class SongbookPresenter extends BasePresenter
 
 		$this->template->songbook = $songbookItem;
 		$this->template->username = $username;
+			$this->setView($view);
 
 		} else {
 			$this->flashMessage('Uživatel ' . $username . ' neexistuje.');
