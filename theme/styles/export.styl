@@ -1,0 +1,25 @@
+$font-head = 'IM Fell Great Primer SC', serif
+$font-base = 'Roboto Slab', serif
+
+
+.title
+    font-family $font-head
+
+.chord
+    font-family $font-head
+    &-verse, &-chorus
+        font-family $font-head
+
+.song-box
+    position relative
+    font-family $font-base
+
+    &:after
+        content ''
+        display block
+        background url(../../files/odyssea/logo_odyssea.svg) center center / contain no-repeat
+        width 500px
+        height 500px
+        position absolute
+        top 0
+        right -350px
