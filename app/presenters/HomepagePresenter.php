@@ -13,9 +13,7 @@ class HomepagePresenter extends BasePresenter
 	{
 		if ($this->getUser()->isLoggedIn()) {
 			$this->redirect('User:dashboard');
-		} else {
-			$this->redirect('Sign:in');
-		}
+		} 	
 	}
 
 }

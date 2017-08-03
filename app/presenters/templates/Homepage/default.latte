@@ -1,1 +1,7 @@
 {block content}
+{capture $subtitle}Ještě nemáš účet? <a href="{link Sign:up}">Založ si ho</a>.{/capture}
+
+{include '../components/form.latte'
+form => 'signInForm',
+title => 'Přihlásit',
+subtitle => $subtitle }
