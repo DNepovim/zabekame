@@ -148,10 +148,10 @@ class SongbookItem extends Nette\Object
 	{
 
 		if (is_numeric($songbook)) {
-			$relations = $this->database->table(self::RELATION_TABLE_NAME)->select(self::RELATION_SONG)->where(self::RELATION_SONGBOOK, $songbook)->fetchAll();
+			$relations = $this->database->table(self::RELATION_TABLE_NAME)->order(self::COLUMN_ORDER)->select(self::RELATION_SONG)->where(self::RELATION_SONGBOOK, $songbook)->fetchAll();
 		} else {
 			$songbook = $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_GUID, $songbook)->fetch();
-			$relations = $this->database->table(self::RELATION_TABLE_NAME)->select(self::RELATION_SONG)->where(self::RELATION_SONGBOOK, $songbook->id)->fetchAll();
+			$relations = $this->database->table(self::RELATION_TABLE_NAME)->order(self::COLUMN_ORDER)->select(self::RELATION_SONG)->where(self::RELATION_SONGBOOK, $songbook->id)->fetchAll();
 		}
 
 
