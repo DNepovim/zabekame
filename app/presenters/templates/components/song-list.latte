@@ -9,7 +9,7 @@
     <ul class="song-list" id="search-container">
         <li class="song-list-item song-item search-target" n:foreach="$songs as $item">
             <a class="song-list-link search-value" n:href="Song:detail username => $username, songguid => $item->guid" title="detail písně">{$item->title}<i class="separator">/</i>{$item->interpreter}</a>
-            <a class="song-list-icon icon" title="smazat píseň" n:href="Song:remove username => $username, guid => $item->guid" n:if="$editable">
+            <a class="song-list-icon icon" title="smazat píseň" onclick="return confirm('Jsi si jistý, že chceš smazat píseň {$item->title}?')" n:href="Song:remove username => $username, guid => $item->guid" n:if="$editable">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </a>
             <a class="song-list-icon icon" title="upravit píseň" n:href="Song:edit username => $username, guid => $item->guid" n:if="$editable">
