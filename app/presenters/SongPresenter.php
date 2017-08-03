@@ -121,12 +121,13 @@ class SongPresenter extends BasePresenter
 
 		$userID = $this->getUser()->id;
 
-		$songManager->remove($userID, $guid);
+		if ($songManager->remove($userID, $guid)) {
+			$this->flashMessage('Píseň byla smazána.');
+		} else {
+			$this->flashMessage('Píseň neexistuje.');
+		}
 
-		$userManager = new UserManager($this->database);
-		$username = $userManager->getNickByID($userID);
-
-		$this->redirect('User:dashboard', $username);
+		$this->redirect('User:dashboard');
 
 	}
 
