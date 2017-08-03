@@ -1,6 +1,6 @@
 {block content}
 
-<article class="song-box">
+<article class="song-box" n:attr="id => $song->guid">
     <header class="song-fieldset">
         {if !empty($songbook)}
             {if $songbook !== 'others'}
