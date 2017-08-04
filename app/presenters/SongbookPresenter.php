@@ -90,7 +90,6 @@ class SongbookPresenter extends BasePresenter
 
 			$songsManager = new SongManager($this->database);
 
-
 			$this->template->songs = [];
 
 			foreach ($ids as $id) {
