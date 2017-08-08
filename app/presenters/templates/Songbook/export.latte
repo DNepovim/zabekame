@@ -1,7 +1,7 @@
 \input{l}lib.tex{r}<br>
-\songtitlepage<br>
-\listofsongs[1]<br>
 \begin{l}document{r}<br>
+    \songtitlepage<br>
+    \listofsongs[1]<br>
     {foreach $songs as $song}
         \begin{l}song{r}[{$song->interpreter}]{l}{$iterator->getCounter()}{r}{l}{$song->title}{r}{l}zabeka.me/odyssea/{$song->guid}{r}<br>
             {$song->lyric|breaklines}<br>
