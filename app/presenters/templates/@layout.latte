@@ -33,6 +33,9 @@
 	  ga('send', 'pageview');
 
 	</script>
+	<script>
+		initComponents = []
+	</script>
 
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 

@@ -10,7 +10,7 @@ class Search extends Component {
 
 	get listeners() {
 		return {
-			'keyup #search-input': 'handleChange'
+			[`keyup ${this.data.input}`]: 'handleChange',
 		}
 	}
 

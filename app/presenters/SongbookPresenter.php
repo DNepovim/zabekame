@@ -14,6 +14,8 @@ use App\Forms;
 
 class SongbookPresenter extends BasePresenter
 {
+	protected $songbookItem;
+
 	/** @var Forms\SongbookFormFactory @inject */
 	public $songbookFactory;
 
@@ -39,18 +41,21 @@ class SongbookPresenter extends BasePresenter
 	/**
 	 * Render songbook edit page
 	 */
-	public function renderEdit($id)
+	public function renderEdit($username, $songbook)
 	{
 		if (!$this->user->isLoggedIn()) {
 			$this->flashMessage('Nejdřív se musíš přihlásit.');
 			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
 		}
 
-		$songbook = new SongbookItem($this->database);
-		$songbook->getSongbook($id);
-		$this->id = $id;
+		$songbookItem = new SongbookItem($this->database);
+		$songbookItem->getSongbook($username, $songbook);
+		$songbookItem->getSongs();
 
-		if ($songbook->user->id !== $this->user->id) {
+		$this->songbookItem = $songbookItem;
+		$this->template->songs = $songbookItem->songs;
+
+		if ($songbookItem->user->id !== $this->user->id) {
 			$this->flashMessage('Píseň může editovat pouze vlastník');
 			$this->redirect('Song:detail', $id);
 		}
@@ -139,12 +144,9 @@ class SongbookPresenter extends BasePresenter
 	 */
 	protected function createComponentSongbookEditForm()
 	{
-		$songbook = new SongbookItem($this->database);
-		$songbook->getSongbook($this->id);
-
 		return $this->songbookEditFactory->create(function ($guid) {
 			$this->redirect('Songbook:detail', $guid);
-		}, $songbook);
+		}, $this->songbookItem);
 	}
 
 }
