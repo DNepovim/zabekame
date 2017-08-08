@@ -2,6 +2,9 @@
  * @param string   $basePath web base path
  * @param array    $flashes  flash messages
  *}
+
+ {default $jQueryUI = false}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,6 +59,7 @@
 
 	{block scripts}
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" n:if="$jQueryUI"></script>
 	<script src="https://nette.github.io/resources/js/netteForms.min.js"></script>
 	<script src="{$basePath}/assets/scripts/index.js"></script>
 	{/block}
