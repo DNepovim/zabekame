@@ -125,9 +125,7 @@ class SongManager extends Nette\Object
 
 	public function import( $user, $url, $source)
 	{
-		if ($source == 'sm') {
-			$data = $this->importFromSM($url);
-		}
+		$data = $this->importFromSM($url);
 
 		$guid = Strings::webalize($data['title']);
 

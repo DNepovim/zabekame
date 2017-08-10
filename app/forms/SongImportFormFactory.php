@@ -34,17 +34,14 @@ class SongImportFormFactory
 		$form->addHidden('user', $user);
 
 		$form->addText('url', 'URL')
-			->setRequired('Prosím, zadej název url.');
+			->setRequired('Prosím, zadej url.');
 
-		$options['sm'] = 'Supermusic.sk';
-
-		$form->addRadioList('source', 'Zdroj', $options);
 
 		$form->addSubmit('send', 'Importovat');
 
 
 		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$song = $this->songManager->import($values->user, $values->url, $values->source );
+			$song = $this->songManager->import($values->user, $values->url );
 			$onSuccess($song->guid);
 		};
 
