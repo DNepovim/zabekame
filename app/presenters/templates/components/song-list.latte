@@ -1,21 +1,22 @@
 {default $editable = false}
 {default $sortable = false}
+{default $search = true}
 
 {var $searchPlaceId = 'search-place-'.uniqid()}
 {var $searchInputId = 'search-input-'.uniqid()}
 {var $listId = 'songs-list-'.uniqid()}
 
 
-<div class="section" id="{$searchPlaceId}">
-    <form class="form search">
+<div n:class="section, $sortable ? 'view-sortable'" id="{$searchPlaceId}">
+    <form class="form search" n:if="$search">
         <input class="form-input search-input" placeholder="Hledat" type="search" id="{$searchInputId}">
         <i class="fa fa-search search-icon" aria-hidden="true"></i>
         {*<input class="form-submit" type="submit">*}
     </form>
 
     <ul class="song-list"  id="{$listId}">
-        <li class="song-list-item song-item search-target" n:foreach="$songs as $item">
-            <a class="song-list-link search-value" n:href="Song:detail username => $username, songguid => $item->guid" title="detail písně">{$item->title}<i class="separator">/</i>{$item->interpreter}</a>
+        <li class="song-list-item song-item search-target" data-id="{$item->id}" n:foreach="$songs as $item">
+            <a class="song-list-link search-value" n:href="Song:detail username => $username, guid => $item->guid" title="detail písně">{$item->title}<i class="separator">/</i>{$item->interpreter}</a>
             <a class="song-list-icon icon" title="smazat píseň" onclick="return confirm('Jsi si jistý, že chceš smazat píseň {$item->title}?')" n:href="Song:remove username => $username, guid => $item->guid" n:if="$editable">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </a>
@@ -29,7 +30,7 @@
 {var $hashedSearchPlaceId = '#'.$searchPlaceId}
 {var $hashedSearchInputId = '#'.$searchInputId}
 {var $hashedListId = '#'.$listId}
-<script>
+<script n:if="$search">
     initComponents.push({
         name: 'search',
         place: {$hashedSearchPlaceId},

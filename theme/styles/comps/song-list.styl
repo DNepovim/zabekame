@@ -1,6 +1,8 @@
 .song-list
     list-style none
     min-height 50vh
+    margin-top 1rem
+    margin-bottom @margin-top
 
     &-item
         padding 0.2em 0.5em
@@ -16,3 +18,7 @@
 
     &-icon
         float right
+
+    .view-sortable &
+        &-item
+            courser move

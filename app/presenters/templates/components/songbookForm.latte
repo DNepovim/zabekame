@@ -1,8 +1,16 @@
 <div class="song-box">
     <form n:name=$form id="songedit">
+        <ul class="errors" n:if="$form->hasErrors()">
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </ul>
+        {input originGuid}
+        {input username}
+        {input order id => "song-order-input"}
+        
+        {input send id => 'send', class => 'hidden'}
         <label class="song-link button" for="send"><i class="fa fa-floppy-o" aria-hidden="true"></i>uložit</label>
         <a class="song-link button" n:href=":detail $id" n:if="!empty($id)"><i class="fa fa-eye" aria-hidden="true"></i>zobrazit zpěvník</a>
-        <a class="song-link button" n:href="User:dashboard"><i class="fa fa-arrow-left" aria-hidden="true"></i>zpět na nástěnku </a>
+        <a class="song-link button" n:href="User:dashboard"  onclick="return confirm('Opravdu chceš zahodit všechny úpravy?')"><i class="fa fa-times" aria-hidden="true"></i>zrušit</a>
         <fieldset class="song-fieldset">
             {input title class => 'song-input song-text song-title title title-main', id => 'songedit-title'}
             {*<span class=error n:ifcontent>{$input->error}</span>*}
@@ -20,9 +28,12 @@
                 <span class="checkbox-label">hlavní zpěvník</span>
             </label>
         </fieldset>
+        <fieldset class="song-fieldset" n:if="!empty($songs)">
+            {include '../components/song-list.latte' songs => $songs, username => $currentUser[username], editable => true, sortable => true, search => false}
+        </fieldset>
         <fieldset class="song-fieldset">
             <label class="song-link button" for="send"><i class="fa fa-floppy-o" aria-hidden="true"></i>uložit</label>
-            {input send id => 'send', class => 'hidden'}
+            <a href="User:dashboard"  onclick="return confirm('Opravdu chceš zahodit všechny úpravy?')" class="song-link button"><i class="fa fa-times" aria-hidden="true"></i>zrušit</a>
         </fieldset>
     </form>
 </div>

@@ -32,6 +32,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	public function beforeRender() {
 		parent::beforeRender();
 
+		$this->template->snippet = $this->context->parameters['mango'];
+
 		$user = $this->getUser();
 
 		if ($user->isLoggedIn()) {

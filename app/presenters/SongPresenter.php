@@ -37,26 +37,19 @@ class SongPresenter extends BasePresenter
 	/**
 	 * Render detail
 	 */
-	public function renderDetail( $username, $songbook = '', $item )
+	public function renderDetail( $username, $songbook = '', $guid )
 	{
 
-		$songItem = new SongItem($this->database);
+
+		$songItem = $this->itemSwitcher($username, $guid);
+
+		$this->template->song = $songItem;
+		$this->template->editable = $songItem->userID == $this->user->id;
+
 		$songbookItem = new SongbookItem($this->database);
-
-
-		if ($songItem->getSong($username, $item)) {
-			$this->template->song = $songItem;
-			$this->template->editable = $songItem->userID == $this->user->id;
-		} elseif ($songbookItem->getSongbook($username,$item)) {
-
-		} else {
-			$this->flashMessage('Tato písnička neexistuje. Možná byla smazána, nebo přejmenována.');
-			$this->redirect('User:dashboard',$username);
-			exit;
-		};
-
-		$songbookItem->getSongbook($username,$item);
+		$songbookItem->getSongbook($username, $guid);
 		$songbookItem->getSongs();
+
 		$this->template->songbook = $songbookItem;
 
 	}
@@ -68,11 +61,12 @@ class SongPresenter extends BasePresenter
 	public function actionEdit( $username, $songbook = '', $guid )
 	{
 
-		$i = 0;
 		if (!$this->user->isLoggedIn()) {
-			$this->flashMessage('Nejdřív se musíš přihlásit.');
+			$this->flashMessage('Nejdřív se musíš přihlásit.', 'warning');
 			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
 		}
+
+		$this->itemSwitcher($username, $guid, 'edit');
 
 		$songItem = new SongItem($this->database);
 		$songItem->getSong($username, $guid);
@@ -80,7 +74,7 @@ class SongPresenter extends BasePresenter
 		if ($songItem->userID !== $this->user->getID()) {
 
 			$username = $songItem->username;
-			$this->flashMessage('Píseň může editovat pouze vlastník');
+			$this->flashMessage('Píseň může editovat pouze vlastník', 'warning');
 			$this->redirect('Song:detail', $username, $guid);
 		}
 
@@ -104,7 +98,7 @@ class SongPresenter extends BasePresenter
 	public function renderAdd()
 	{
 		if (!$this->user->isLoggedIn()) {
-			$this->flashMessage('Nejdřív se musíš přihlásit.');
+			$this->flashMessage('Nejdřív se musíš přihlásit.', 'warning');
 			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
 		}
 
@@ -116,21 +110,44 @@ class SongPresenter extends BasePresenter
 	/**
 	 * Remove song
 	 */
-	public function actionRemove($guid)
+	public function actionRemove($username, $guid)
 	{
+
+		if (!$this->user->isLoggedIn()) {
+			$this->flashMessage('Nejdřív se musíš přihlásit.', 'warning');
+			$this->redirect('Sign:in', ['backlink' => $this->storeRequest()]);
+		}
+
+		$this->itemSwitcher($username, $guid, 'remove');
+
 		$songManager = new SongManager($this->database);
 
-		$userID = $this->getUser()->id;
-
-		if ($songManager->remove($userID, $guid)) {
-			$this->flashMessage('Píseň byla smazána.');
+		if ($songManager->remove($username, $guid)) {
+			$this->flashMessage('Píseň byla smazána.', 'success');
 		} else {
-			$this->flashMessage('Píseň neexistuje.');
+			$this->flashMessage('Píseň neexistuje.', 'error');
 		}
 
 		$this->redirect('User:dashboard');
 
 	}
+
+	private function itemSwitcher($username, $guid, $action = 'detail') {
+
+		$songItem = new SongItem($this->database);
+		$songbookItem = new SongbookItem($this->database);
+
+		if ($songItem->getSong($username, $guid)) {
+			return $songItem;
+		} elseif ($songbookItem->getSongbook($username,$guid)) {
+			$this->forward('Songbook:' . $action, ['username' => $username, 'songbook' => $guid]);
+		} else {
+			$this->flashMessage('Na této url není žádná písnička ani zpěvník. Možná byla smazána, nebo přejmenována.', 'error');
+			$this->redirect('User:dashboard');
+			exit;
+		};
+	}
+
 
 	/**
 	 * Song form factory.
@@ -146,7 +163,7 @@ class SongPresenter extends BasePresenter
 		$songbooksList = $songbooks->getUsersSongbooks($userID);
 
 		return $this->songFactory->create(function ($username, $songguid) {
-			$this->redirect('Song:detail',['username' => $username, 'songguid' => $songguid]);
+			$this->redirect('Song:detail',['username' => $username, 'item' => $songguid]);
 		},$userID, $username, $songbooksList);
 	}
 
@@ -157,8 +174,9 @@ class SongPresenter extends BasePresenter
 	 */
 	protected function createComponentSongEditForm()
 	{
-		return $this->songEditFactory->create(function ($username,$songguid) {
-			$this->redirect('Song:detail',['username' => $username, 'songguid' => $songguid]);
+		return $this->songEditFactory->create(function ($username, $songguid) {
+			$this->flashMessage('Píseň byla uložena.', 'success');
+			$this->redirect('Song:detail',['username' => $username, 'guid' => $songguid]);
 		}, $this->song, $this->songbooksList);
 	}
 

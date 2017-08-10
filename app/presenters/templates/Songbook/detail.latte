@@ -7,12 +7,12 @@
 {/block}
 {block content}
 {foreach $songs as $song}
-	{include '../Song/detail.latte' song => $song, songs => $songs, username => $username}
+    {include ../components/song.latte song => $song, songbook => $songbook}
 {/foreach}
 
 <script>
     initComponents = [{
             name: 'chords',
-            place: '.container'
+            place: '.song-lyric'
         }]
 </script>

@@ -32,7 +32,9 @@ class SongbookEditFormFactory
 	{
 		$form = $this->factory->create();
 
-		$form->addHidden('user', $songbook->user['id']);
+		$form->addHidden('originGuid', $songbook->guid);
+		$form->addHidden('username', $songbook->username);
+		$form->addHidden('order');
 
 		$form->addText('title', 'Název')
 			->setAttribute('placeholder', 'Název zpěvníku')
@@ -45,16 +47,16 @@ class SongbookEditFormFactory
 			->setAttribute('placeholder', 'název-v-url')
 			->setAttribute('autocomplete', 'off')
 			->setDefaultValue($songbook->guid)
-		     ->setRequired('Prosím, zadej zázev pro URL.');
+			->setRequired('Prosím, zadej zázev pro URL.');
 
 		$form->addCheckbox('default', 'Hlavní zpěvník')
 			->setDefaultValue($songbook->default);
 
 		$form->addSubmit('send', 'Uložit zpěvník');
 
-		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
-			$songbook = $this->songbookManager->edit($values->user, $values->title, $values->guid, $values->default );
-			$onSuccess($values->guid);
+		$form->onSuccess[] = function(Form $form, $values) use ($onSuccess) {
+			$songbook = $this->songbookManager->edit($values);
+			$onSuccess($values->username, $values->guid);
 		};
 
 		return $form;

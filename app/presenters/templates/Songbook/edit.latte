@@ -6,8 +6,3 @@
 {include '../components/songbookForm.latte'
 form => 'songbookEditForm',
 state => 'eidt'}
-
-<section class="container view-thin">
-  {include '../components/song-list.latte' songs => $songs, username => $currentUser[username], editable => true, sortable => true}
-</section>
-

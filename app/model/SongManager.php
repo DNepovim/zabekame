@@ -6,6 +6,7 @@ use Nette;
 use Nette\Utils\Strings;
 use DOMDocument;
 use DOMXPath;
+use App\Model\UserManager;
 
 
 /**
@@ -107,8 +108,12 @@ class SongManager extends Nette\Object
 		}
 	}
 
-	public function remove($userID, $guid)
+	public function remove($username, $guid)
 	{
+
+		$userManager = new UserManager($this->database);
+		$userID = $userManager->getIDByNick($username);
+		
 		if ($songID = $this->getIdByGuid($guid)) {
 
 			$this->database->table(self::RELATION_TABLE_NAME)->where(self::RELATION_SONG, $songID)->delete();
@@ -213,9 +218,9 @@ class SongManager extends Nette\Object
 	 * @songbook string Songbook ID
 	 * @return array of songs
 	 */
-	public function getSongsById($id)
+	public function getSongsById($ids)
 	{
-		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_ID, $id)->fetchAll();
+		return $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_ID, $ids)->fetchAll();
 	}
 
 	/**

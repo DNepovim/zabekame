@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Nette;
+use App\Model\UserManager;
 
 
 /**
@@ -20,6 +21,12 @@ class SongbookManager extends Nette\Object
 		COLUMN_DEFAULT = 'default',
 		COLUMN_TITLE = 'title',
 		COLUMN_GUID = 'guid';
+		
+	const
+		RELATION_TABLE_NAME = 'zabe_song_songbook_relations',
+		RELATION_SONGBOOK = 'zabe_songbooks_id',
+		RELATION_SONG = 'zabe_songs_id',
+		RELATION_ORDER = 'order';
 
 	/** @var Nette\Database\Context */
 	private $database;
@@ -69,13 +76,13 @@ class SongbookManager extends Nette\Object
 	 * @return Songbook
 	 * @throws DuplicateNameException
 	 */
-	public function edit($songbookID, $title, $guid, $default )
+	public function edit($values)
 	{
 		try {
 			// if is default options checket, remove all default values and set new
-			if ($default) {
+			if ($values->default) {
 				$songbookItem = new SongbookItem($this->database);
-				$songbookItem->getSongbook($songbookID);
+				$songbookItem->getSongbook($values->username, $values->originGuid);
 
 				$songbooks = $this->getUsersSongbooks($songbookItem->user->id);
 				foreach ($songbooks as $songbook) {
@@ -84,11 +91,21 @@ class SongbookManager extends Nette\Object
 				$this->database->table(self::TABLE_NAME)->where(self::COLUMN_ID, $songbooksID)->update( [self::COLUMN_DEFAULT => 0] );
 			}
 
-			$songbook = $this->database->table(self::TABLE_NAME)->where(self::COLUMN_ID, $songbookID)->update([
-				self::COLUMN_TITLE => $title,
-				self::COLUMN_GUID => $guid,
-				self::COLUMN_DEFAULT => $default,
+			$userManager = new userManager($this->database);
+			$userID = $userManager->getIDByNick($values->username);
+
+			$songbook = $this->database->table(self::TABLE_NAME)->where(self::COLUMN_USER, $userID)->where(self::COLUMN_GUID, $values->originGuid)->update([
+				self::COLUMN_TITLE => $values->title,
+				self::COLUMN_GUID => $values->guid,
+				self::COLUMN_DEFAULT => $values->default,
 			]);
+
+			if (!empty($values->order)) {
+				$order = json_decode($values->order);
+				foreach ($order as $id => $or) {
+					$songbook = $this->database->table(self::RELATION_TABLE_NAME)->where(self::RELATION_SONGBOOK, $songbookItem->id)->where(self::RELATION_SONG, $id)->update([self::RELATION_ORDER => $or]);
+				}
+			}
 
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;

@@ -28,7 +28,7 @@ class SongbookItem extends Nette\Object
 		RELATION_TABLE_NAME = 'zabe_song_songbook_relations',
 		RELATION_SONGBOOK = 'zabe_songbooks_id',
 		RELATION_SONG = 'zabe_songs_id',
-		REALTION_ORDER = 'order';
+		RELATION_ORDER = 'order';
 
 	const
 		SONGBOOK_OTHERS_ID = -2,
@@ -49,6 +49,7 @@ class SongbookItem extends Nette\Object
 
 	public $id;
 	public $user;
+	public $username;
 	public $title;
 	public $guid;
 	public $default;
@@ -73,6 +74,7 @@ class SongbookItem extends Nette\Object
 
 		$userManager = new UserManager($this->database);
 		$userID = $userManager->getIDByNick($username);
+		$this->username = $username;
 
 		if ($songbook == self::SONGBOOK_OTHERS_GUID) {
 
@@ -85,6 +87,8 @@ class SongbookItem extends Nette\Object
 			$this->stylesheet = null;
 			$this->fonts = null;
 
+			return true;
+
 		} else if ($songbookItem = $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_GUID, $songbook)->where(self::COLUMN_USER, $userID)->fetch()) {
 
 			$this->id = $songbookItem->id;
@@ -96,6 +100,8 @@ class SongbookItem extends Nette\Object
 			$this->stylesheet = $songbookItem->stylesheet;
 			$this->fonts = $songbookItem->fonts;
 
+			return true;
+
 		} else {
 			$this->id = self::SONGBOOK_ALL_ID;
 			$this->user = $userID;
@@ -105,7 +111,11 @@ class SongbookItem extends Nette\Object
 			$this->order = self::SONGBOOK_ALL_ORDER;
 			$this->stylesheet = null;
 			$this->fonts = null;
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**
@@ -125,43 +135,14 @@ class SongbookItem extends Nette\Object
 			$this->songs = $songManager->getAllUsersSongs($this->user);
 		} else {
 			// load songs by songbook id
-			$relations = $this->getSongsIDFromSongbook($this->guid);
-			$this->songs = $songManager->getSongsById($relations);
-		}
-	}
+			$relations = $this->database->table(self::RELATION_TABLE_NAME)->order(self::RELATION_ORDER)->select(self::RELATION_SONG)->where(self::RELATION_SONGBOOK, $this->id)->fetchAll();
 
-	/**
-	 * Get list of song IDs
-	 * @return array of song IDs
-	 */
-	public function getSongsID()
-	{
-		return $this->getSongsIDFromSongbook($this->id);
-	}
-
-	/**
-	 * Get list of song IDs related to songbook
-	 * @param integer Songbook ID
-	 * @return array of song IDs
-	 */
-	public function getSongsIDFromSongbook($songbook)
-	{
-
-		if (is_numeric($songbook)) {
-			$relations = $this->database->table(self::RELATION_TABLE_NAME)->order(self::COLUMN_ORDER)->select(self::RELATION_SONG)->where(self::RELATION_SONGBOOK, $songbook)->fetchAll();
-		} else {
-			$songbook = $this->database->table(self::TABLE_NAME )->select('*')->where(self::COLUMN_GUID, $songbook)->fetch();
-			$relations = $this->database->table(self::RELATION_TABLE_NAME)->order(self::COLUMN_ORDER)->select(self::RELATION_SONG)->where(self::RELATION_SONGBOOK, $songbook->id)->fetchAll();
-		}
-
-
-		if (!empty($relations)) {
+			$songs = [];
 			foreach ($relations as $relation) {
-				$ids[] = $relation->zabe_songs_id;
+				$relation;
+				$songs[] = $relation->songs;
 			}
-			return $ids;
-		} else {
-			return false;
+			$this->songs = $songs;
 		}
 	}
 
