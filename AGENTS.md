@@ -11,6 +11,8 @@
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Architecture**: [Feature-Sliced Design (FSD)](https://feature-sliced.design/docs/get-started/overview)
 - **Testing**: [Vitest](https://vitest.dev/) + [Testing Library](https://testing-library.com/)
+- **Database**: [Prisma](https://www.prisma.io/docs) + [PostgreSQL](https://www.postgresql.org/)
+- **Auth**: [Better Auth](https://www.better-auth.com/docs/introduction)
 - **Linting**: ESLint + Prettier
 - **Architecture linting**: [Steiger](https://github.com/feature-sliced/steiger)
 

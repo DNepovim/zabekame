@@ -31,7 +31,7 @@ function applyThemeMode(mode: ThemeMode) {
   document.documentElement.style.colorScheme = resolved
 }
 
-export default function ThemeToggle() {
+export function ThemeToggle() {
   const [mode, setMode] = useState<ThemeMode>('auto')
 
   useEffect(() => {
@@ -46,7 +46,9 @@ export default function ThemeToggle() {
     }
 
     const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const onChange = () => { applyThemeMode('auto'); }
+    const onChange = () => {
+      applyThemeMode('auto')
+    }
 
     media.addEventListener('change', onChange)
     return () => {
@@ -64,8 +66,8 @@ export default function ThemeToggle() {
 
   const label =
     mode === 'auto'
-      ? 'Theme mode: auto (system). Click to switch to light mode.'
-      : `Theme mode: ${mode}. Click to switch mode.`
+      ? 'Theme: auto (system). Click to switch to light.'
+      : `Theme: ${mode}. Click to switch.`
 
   return (
     <button
@@ -73,7 +75,7 @@ export default function ThemeToggle() {
       onClick={toggleMode}
       aria-label={label}
       title={label}
-      className="rounded-full border border-[var(--chip-line)] bg-[var(--chip-bg)] px-3 py-1.5 text-sm font-semibold text-[var(--sea-ink)] shadow-[0_8px_22px_rgba(30,90,72,0.08)] transition hover:-translate-y-0.5"
+      className="inline-flex h-8 items-center rounded-md border bg-background px-3 text-sm font-medium text-foreground shadow-xs transition-colors hover:bg-accent hover:text-accent-foreground"
     >
       {mode === 'auto' ? 'Auto' : mode === 'dark' ? 'Dark' : 'Light'}
     </button>
