@@ -1,0 +1,70 @@
+{
+  "name": "zabekame",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "scripts": {
+    "dev": "vite dev --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "format:check": "prettier --check '**/*.{ts,tsx,js,cjs,json,svg}'",
+    "format:write": "prettier --write --cache '**/*.{ts,tsx,js,cjs,json,svg}'",
+    "lint:check": "eslint './src/**/*.{ts,tsx,js,cjs,mjs}'",
+    "lint:fix": "eslint --fix --cache './src/**/*.{ts,tsx,js,cjs,mjs}'",
+    "arch:check": "steiger ./src",
+    "arch:watch": "steiger ./src --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "@tanstack/react-devtools": "^0.7.0",
+    "@tanstack/react-router": "^1.132.0",
+    "@tanstack/react-router-devtools": "^1.132.0",
+    "@tanstack/react-router-ssr-query": "^1.131.7",
+    "@tanstack/react-start": "^1.132.0",
+    "@tanstack/router-plugin": "^1.132.0",
+    "lucide-react": "^0.545.0",
+    "nitro": "npm:nitro-nightly@latest",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "@eslint/css": "^0.14.1",
+    "@eslint/js": "^10.0.1",
+    "@eslint/json": "^1.0.1",
+    "@eslint/markdown": "^7.5.1",
+    "@feature-sliced/steiger-plugin": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.16",
+    "@tanstack/devtools-vite": "^0.3.11",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/react": "^16.2.0",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "eslint": "^10.0.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-sonarjs": "^4.0.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "globals": "^17.4.0",
+    "jiti": "^2.6.1",
+    "jsdom": "^27.0.0",
+    "prettier": "3.8.1",
+    "prettier-plugin-tailwind": "^2.2.12",
+    "steiger": "^0.5.11",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.56.1",
+    "vite": "^7.1.7",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.5"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lightningcss"
+    ]
+  }
+}
